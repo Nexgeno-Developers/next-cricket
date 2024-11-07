@@ -65,7 +65,6 @@
 	<!--Page Load Progress Bar [ OPTIONAL ]-->
  
 	<?php $ext =  $this->db->get_where('ui_settings',array('type' => 'fav_ext'))->row()->value;?>
-	<?/*<link rel="shortcut icon" href="<?php echo base_url(); ?>uploads/others/favicon.<?php echo $ext; ?>">*/?>
 	<link rel="shortcut icon" href="https://www.bni.com/wp-content/uploads/2020/05/Favicon_final.jpg?x32301">
 	<script>
 	<?php

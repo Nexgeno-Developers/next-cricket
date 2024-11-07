@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'https://mak-cricket.webtesting.pw/';
+$config['base_url'] = 'http://localhost/cricket/';
 $config['display_errors'] = FALSE;
 
 /*
