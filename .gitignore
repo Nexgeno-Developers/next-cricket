@@ -2,7 +2,6 @@
 /config/config.php
 /.fleet
 /.idea
-/.txt
 /.vscode
 *.zip
 *.sql
