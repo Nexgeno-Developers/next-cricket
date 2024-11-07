@@ -1,5 +1,5 @@
-/config/database.php
-/config/config.php
+config/database.php
+config/config.php
 /.fleet
 /.idea
 /.vscode
