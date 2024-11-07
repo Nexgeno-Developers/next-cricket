@@ -3,8 +3,8 @@
 /public/build
 /public/hot
 /public/storage
-/application/config/database.php
-/application/config/config.php
+/public//application/config/database.php
+/public//application/config/config.php
 /storage/*.key
 /vendor
 .env
