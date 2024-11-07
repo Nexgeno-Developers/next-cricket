@@ -1,7 +1,7 @@
-application/config/database.php
-application/config/config.php
-/.fleet
-/.idea
-/.vscode
+database.php
+config.php
+.fleet
+.idea/
+.vscode/
 *.zip
 *.sql
