@@ -112,6 +112,7 @@ class Admin extends CI_Controller
 		if ($para1 == 'do_add') {
 			$random = mt_rand(10000, 99999);
 			$data['players_name'] = $this->input->post('players_name');
+			$data['profile_type'] = $this->input->post('profile_type');
 			$data['type'] = $this->input->post('type');
 			$data['style'] = $this->input->post('style');
 			$data['dob'] = $this->input->post('dob');
@@ -145,6 +146,7 @@ class Admin extends CI_Controller
 			$this->load->view('back/admin/players_edit', $page_data);
 		} elseif ($para1 == "update") {
 			$data['players_name'] = $this->input->post('players_name');
+			$data['profile_type'] = $this->input->post('profile_type');
 			$data['type'] = $this->input->post('type');
 			$data['style'] = $this->input->post('style');
 			$data['dob'] = $this->input->post('dob');

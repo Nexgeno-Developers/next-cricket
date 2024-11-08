@@ -10,6 +10,7 @@
 				<th>Unique Id</th>
 				<th>Profile</th>
 				<th>Name</th>
+				<th>Profile Type</th>
 				<th>Type</th>
 				<th>Style</th>
 				<th>Age</th>
@@ -29,6 +30,7 @@
 					<img class="img-md" src="<?php echo base_url(); ?>uploads/default.jpg" /><?php
 				}	?> </td>
 				<td><?= $row['players_name']; ?><?php if(!empty($row['nickname'])){ echo '('.$row['nickname'].')'; } ?></td>
+				<td><?= $row['profile_type']; ?></td>
 				<td><?= $row['type']; ?></td>
 				<td><?= $row['style']; ?></td>
 				<td><?= date_diff(date_create($row['dob']), date_create(date("Y-m-d")))->format('%y'); ?></td>
@@ -38,11 +40,13 @@
                     onclick="ajax_modal('view','<?php echo translate('view_profile'); ?>','<?php echo translate('successfully_viewed!'); ?>','player_view','<?php echo $row['players_id']; ?>')" data-original-title="View" data-container="body">
                         <?php echo translate('profile');?>
                 </a>
+				<?php if($this->session->userdata('role') != 3): ?>
 					<a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
 						onclick="ajax_modal('edit','<?= translate('edit_players'); ?>','<?= translate('successfully_edited!'); ?>','players_edit','<?php echo $row['players_id']; ?>')" data-original-title="Edit" data-container="body">Edit
 					</a>
 					<a onclick="delete_players('<?= $row['players_id']; ?>','players','<?= translate('really_want_to_delete_this?'); ?>')" class="btn btn-danger btn-xs btn-labeled fa fa-trash" data-toggle="tooltip" data-original-title="Delete" data-container="body">Delete
 					</a>
+					<?php endif; ?>
 				</td>
 			</tr>
 			<?php
