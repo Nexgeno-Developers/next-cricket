@@ -33,7 +33,7 @@
 					<div class="form-group">
 			<label class="col-sm-4 control-label" for="demo-hor-1">League</label>
 			<div class="col-sm-6">
-				<select class="form-control" id="league" name="league">
+				<select class="form-control required" id="league" name="league" required>
 					<option value="">Select League</option>
 					<?php foreach($all_leagues as $row) {
 	?>
@@ -48,6 +48,34 @@
 				</select>
 			</div>
 		</div>
+
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="demo-hor-1">Owner Name</label>
+					<div class="col-sm-6">
+						<input type="text" name="owner_name" id="demo-hor-1"	placeholder="Owner Name" class="form-control required">
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="demo-hor-1">Owner Email</label>
+					<div class="col-sm-6">
+						<input type="email" name="owner_email" id="demo-hor-1"	placeholder="Owner Email" class="form-control required">
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="demo-hor-1">Owner Phone</label>
+					<div class="col-sm-6">
+						<input type="text" name="owner_phone" id="demo-hor-1"	placeholder="Owner Phone" class="form-control required">
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="demo-hor-1">Owner Password</label>
+					<div class="col-sm-6">
+						<input type="text" name="owner_password" id="demo-hor-1"	placeholder="Owner Password" class="form-control required">
+					</div>
+			</div>
+		</div>
+
 			</div>
 
 		</div>

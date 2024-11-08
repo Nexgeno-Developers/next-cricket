@@ -28,9 +28,9 @@ class Crud_model extends CI_Model
 		$admin      = $this->db->get_where('admin', array('admin_id' => $admin_id))->row();
 		$this->benchmark->mark_time();
 		
-		if ($admin->role == 1) {
+		if (in_array($admin->role, [1, 3])) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}

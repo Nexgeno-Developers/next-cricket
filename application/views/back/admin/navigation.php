@@ -114,6 +114,25 @@ a.dropdown-toggle i {
 					</a>
 				</li>	
 				<?php } ?>
+
+				<?php if($this->crud_model->get_type_name_by_id('admin',$this->session->userdata('admin_id'),'role')==3){ ?>
+				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?> style="border-top:1px solid rgba(69, 74, 84, 0.7);">
+					<a href="<?php echo base_url(); ?>index.php/admin/">
+						<i class="fa fa-tachometer"></i><span class="menu-title"> Dashboard</span>
+					</a>
+				</li>
+				<li <?php if($page_name=="teams"){?> class="active-link" <?php } ?> >
+					<a href="<?php echo base_url(); ?>index.php/admin/teams">
+						<i class="fa fa-users"></i> Teams
+					</a>
+				</li>	 
+				<li <?php if($page_name=="league"){?> class="active-link" <?php } ?> >
+					<a href="<?php echo base_url(); ?>index.php/admin/league">
+						<i class="fa fa-calendar-o"></i> League
+					</a>
+				</li>	
+				<?php } ?>
+
 				<li <?php if($page_name=="manage_admin"){?> class="active-link" <?php } ?> >
 					<a href="<?php echo base_url(); ?>index.php/admin/manage_admin/">
 						<i class="fa fa-lock"></i><span class="menu-title"> Profile</span>

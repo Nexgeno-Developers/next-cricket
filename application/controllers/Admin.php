@@ -24,11 +24,30 @@ class Admin extends CI_Controller
 		if ($this->session->userdata('admin_login') == 'yes') {
 			
 			$page_data['page_name'] = "dashboard";
+			
+			if($this->session->userdata('role') != 3){
+
 			$page_data['all_teams'] = $this->db->count_all('teams');
 			$page_data['all_players'] = $this->db->count_all('players');
 			$page_data['all_sold_players'] = $this->db->count_all('soldplayers');
 			$page_data['all_unsold_players'] = $this->db->count_all('unsold');
 			$page_data['cur_league'] = $this->db->select_max('league_id')->get('league')->row_array();
+
+			}else{
+				$page_data['teams'] = $this->db->from('teams')->where('owner_id', $this->session->userdata('admin_id'))->get()->row();
+
+				$page_data['all_players_purchases'] = $this->db->where('teams_id', $page_data['teams']->teams_id)->count_all_results('soldplayers');
+
+				$page_data['total_point'] = $page_data['teams']->virtual_point;
+				
+				$total_solds = $this->db->select('sold_price')->where('teams_id', $page_data['teams']->teams_id)->get('soldplayers')->result();
+				$t = 0;
+				foreach ($total_solds as $sold) {
+					$t += $sold->sold_price;
+				}
+				
+				$page_data['remaining_point'] = $page_data['total_point'] - $t;
+			}
 			
 			$this->load->view('back/index', $page_data);
 		} else {
@@ -234,10 +253,33 @@ class Admin extends CI_Controller
 				$this->db->where('teams_id', $id);
 				$this->db->update('teams', $data_logo);
 			}
+
+			// Collect owner data
+			$data_owner = [
+				'name' => $this->input->post('owner_name'),
+				'phone' => $this->input->post('owner_phone'),
+				'email' => $this->input->post('owner_email'),
+				'password' => sha1($this->input->post('owner_password')),
+				'role' => 3,
+			];
+
+			// Insert owner data
+			$this->db->insert('admin', $data_owner);
+			$owner_id = $this->db->insert_id();
+
+			// Update team with owner_id
+			$this->db->where('teams_id', $id);
+			$this->db->update('teams', ['owner_id' => $owner_id]);
+
 			/* recache(); */
 		} else if ($para1 == 'edit') {
 			$page_data['all_leagues'] = $this->db->get('league')->result_array();
 			$page_data['teams_data'] = $this->db->get_where('teams', array('teams_id' => $para2))->result_array();
+			if (!empty($page_data['teams_data']) && isset($page_data['teams_data'][0]['owner_id'])) {
+				$page_data['owner'] = $this->db->get_where('admin', ['admin_id' => $page_data['teams_data'][0]['owner_id']])->row_array();
+			} else {
+				$page_data['owner'] = null; // Handle the case where owner data is not available
+			}
 			$this->load->view('back/admin/teams_edit', $page_data);
 		} elseif ($para1 == "update") {
 			$data['teams_name'] = $this->input->post('teams_name');
@@ -258,6 +300,30 @@ class Admin extends CI_Controller
 				$this->db->where('teams_id', $para2);
 				$this->db->update('teams', $data_logo);
 			}
+
+			// Collect owner data
+			$data_owner = [
+				'name' => $this->input->post('owner_name'),
+				'phone' => $this->input->post('owner_phone'),
+				'email' => $this->input->post('owner_email'),
+			];
+
+			// Add password to data_owner if provided
+			if (!empty($this->input->post('owner_password'))) {
+				$data_owner['password'] = sha1($this->input->post('owner_password'));
+			}
+
+			// Check if owner ID exists for update
+			if (!empty($this->input->post('owner'))) {
+				// Update owner data
+				$this->db->where('admin_id', $this->input->post('owner'));
+				$this->db->update('admin', $data_owner);
+			} else {
+				// Insert new owner data if no owner ID is provided
+				$this->db->insert('admin', $data_owner);
+				$owner_id = $this->db->insert_id();
+			}
+
 			recache();
 		} elseif ($para1 == 'delete') {		
 			if(file_exists('uploads/teams_image/'.$this->crud_model->get_type_name_by_id('teams',$para2,'logo'))){
@@ -332,7 +398,13 @@ class Admin extends CI_Controller
 		}
 		elseif ($para1 == 'list') {
 			$this->db->order_by('teams_id', 'desc');
+
+			if ($this->session->userdata('role') == 3) {
+				$this->db->where('owner_id', $this->session->userdata('admin_id'));
+			}
+			
 			$page_data['all_teams'] = $this->db->get('teams')->result_array();
+			
 			$this->load->view('back/admin/teams_list', $page_data);
 		}
 		elseif ($para1 == 'add') {
@@ -771,6 +843,7 @@ class Admin extends CI_Controller
 						$this->session->set_userdata('login', 'yes');
 						$this->session->set_userdata('admin_login', 'yes');
 						$this->session->set_userdata('admin_id', $row['admin_id']);
+						$this->session->set_userdata('role', $row['role']);
 						$this->session->set_userdata('admin_name', $row['name']);
 						$this->session->set_userdata('title', 'admin');
 						echo 'lets_login';
