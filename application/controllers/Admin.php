@@ -1052,7 +1052,7 @@ class Admin extends CI_Controller
 				$this->db->where('admin_id', $this->session->userdata('admin_id'));
 				$this->db->update('admin', array(
 						'name' => $this->input->post('name'),
-						'email' => $this->input->post('email'),
+						//'email' => $this->input->post('email'),
 						'address' => $this->input->post('address'),
 						'phone' => $this->input->post('phone')
 				));
