@@ -98,6 +98,11 @@ a.dropdown-toggle i {
 					<a href="<?php echo base_url(); ?>index.php/admin/league">
 						<i class="fa fa-calendar-o"></i> League
 					</a>
+				</li>
+				<li <?php if($page_name=="sponsor"){?> class="active-link" <?php } ?> >
+					<a href="<?php echo base_url(); ?>index.php/admin/sponsor">
+						<i class="fa fa-users"></i> Sponsor
+					</a>
 				</li>	
 				<?php } ?>
 				

@@ -24,6 +24,8 @@ class Admin extends CI_Controller
 		if ($this->session->userdata('admin_login') == 'yes') {
 			
 			$page_data['page_name'] = "dashboard";
+			$page_data['sponsors'] = $this->db->get('sponsors')->result();
+
 			
 			if($this->session->userdata('role') != 3){
 
@@ -281,6 +283,11 @@ class Admin extends CI_Controller
 				$page_data['owner'] = null; // Handle the case where owner data is not available
 			}
 			$this->load->view('back/admin/teams_edit', $page_data);
+		} else if ($para1 == 'booster') {
+			$page_data['plans'] = $this->db->get('plans')->result_array();
+			$page_data['teams_data'] = $this->db->get_where('teams', array('teams_id' => $para2))->result_array();
+			$page_data['transactions'] = $this->db->get_where('transactions', array('id' => $page_data['teams_data']['id']))->result_array();
+			$this->load->view('back/admin/booster_edit', $page_data);
 		} elseif ($para1 == "update") {
 			$data['teams_name'] = $this->input->post('teams_name');
 			$data['virtual_point'] = $this->input->post('virtual_point');
@@ -413,6 +420,82 @@ class Admin extends CI_Controller
 		}
 		else {
 			$page_data['page_name']      = "teams";
+			$page_data['all_teams'] = $this->db->get('teams')->result_array();
+
+			$this->load->view('back/index', $page_data);
+		}
+	}
+
+
+	/* sponser add, edit, view, delete */
+	function sponsor($para1 = '', $para2 = ''){
+		if (!$this->crud_model->admin_permission()) {
+			redirect(base_url());
+		}
+		if ($para1 == 'do_add') {	
+			$data['name'] = $this->input->post('name');
+			$data['promotion_text'] = $this->input->post('promotion_text');
+			$data['website_url'] = $this->input->post('website_url');
+			$data['type'] = $this->input->post('sponsor_type');
+			$this->db->insert('sponsors', $data);
+			$id = $this->db->insert_id();   
+			if($_FILES['logo']['name']!== ''){
+				$path = $_FILES['logo']['name'];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+				$data_logo['logo'] = 'sponsors_'.$id.'.'.$ext;
+				// $data_logo['logo_thumb'] = 'teams_'.$id.'_thumb.'.$ext;
+				$this->crud_model->file_up("logo", "sponsors", $id, '', '', '.'.$ext);
+				$this->db->where('id', $id);
+				$this->db->update('sponsors', $data_logo);
+			}
+
+			/* recache(); */
+		} else if ($para1 == 'edit') {
+			
+			$page_data['sponsor'] = $this->db->get_where('sponsors', array('id' => $para2))->row_array();
+			$this->load->view('back/admin/sponsor_edit', $page_data);
+			
+		} elseif ($para1 == "update") {
+			$data['name'] = $this->input->post('name');
+			$data['promotion_text'] = $this->input->post('promotion_text');
+			$data['website_url'] = $this->input->post('website_url');
+			$data['type'] = $this->input->post('sponsor_type');
+			$this->db->where('id', $para2);
+			$this->db->update('sponsors', $data);
+			if($_FILES['logo']['name']!== ''){
+				// if(file_exists('uploads/sponsors_image/'.$this->crud_model->get_type_name_by_id('sponsors',$para2,'logo'))){
+				// unlink("uploads/sponsors_image/" .$this->crud_model->get_type_name_by_id('sponsors',$para2,'logo'));
+				// // unlink("uploads/sponsors_image/" .$this->crud_model->get_type_name_by_id('sponsors',$para2,'logo_thumb'));
+				// }
+				$path = $_FILES['logo']['name'];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+				$data_logo['logo'] = 'sponsors_'.$para2.'.'.$ext;
+				// $data_logo['logo_thumb'] = 'sponsors_'.$para2.'_thumb.'.$ext;
+				$this->crud_model->file_up("logo", "sponsors", $para2, '', '', '.'.$ext);
+				$this->db->where('id', $para2);
+				$this->db->update('sponsors', $data_logo);
+			}
+			recache();
+		} elseif ($para1 == 'delete') {		
+			// if(file_exists('uploads/sponsors_image/'.$this->crud_model->get_type_name_by_id('teams',$para2,'logo'))){
+			// 	unlink("uploads/teams_image/" .$this->crud_model->get_type_name_by_id('teams',$para2,'logo'));
+			// 	unlink("uploads/teams_image/" .$this->crud_model->get_type_name_by_id('teams',$para2,'logo_thumb'));
+			// }
+			$this->db->where('id', $para2);
+			$this->db->delete('sponsors');
+			recache();
+		} elseif ($para1 == 'list') {
+			$this->db->order_by('id', 'desc');
+			$page_data['sponsors'] = $this->db->get('sponsors')->result_array();
+			
+			$this->load->view('back/admin/sponsor_list', $page_data);
+		}
+		elseif ($para1 == 'add') {
+			$page_data['sponsor_type'] = $this->db->get('sponsor_type')->result_array();
+			$this->load->view('back/admin/sponsor_add', $page_data);
+		}
+		else {
+			$page_data['page_name']      = "sponsor";
 			$page_data['all_teams'] = $this->db->get('teams')->result_array();
 
 			$this->load->view('back/index', $page_data);

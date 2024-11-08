@@ -159,6 +159,19 @@
 	<?php } ?>
 </div>
 
+<?php foreach ($sponsors as $row) { ?>
+    <a href="<?php echo htmlspecialchars($row->website_url); ?>">
+        <?php if (!empty($row->logo) && file_exists('uploads/sponsors_image/' . $row->logo)) { ?>
+            <img class="img-md" src="<?php echo base_url('uploads/sponsors_image/' . $row->logo); ?>" alt="Sponsor Logo" />
+        <?php } else { ?>
+            <img class="img-md" src="<?php echo base_url('uploads/default.jpg'); ?>" alt="Default Logo" />
+        <?php } ?>
+        <p><?php echo htmlspecialchars($row->promotion_text); ?></p>
+    </a>
+<?php } ?>
+
+
+
 
 <script src="<?php echo base_url(); ?>template/back/js/custom/dashboard.js"></script>
 <style>
