@@ -5,3 +5,5 @@ config.php
 .vscode/
 *.zip
 *.sql
+application/config/database.php
+application/config/config.php
