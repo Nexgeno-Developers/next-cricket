@@ -66,7 +66,7 @@ class Email_model extends CI_Model
     
     function do_email($from = '', $from_name = '', $to = '', $sub ='', $msg ='', $attach = array())
     {    
-		  /*$config = Array(
+		  $config = Array(
 			'protocol' => 'smtp',
 			'smtp_host' => $this->crud_model->get_type_name_by_id('general_settings','72','value'),
 			'smtp_port' => $this->crud_model->get_type_name_by_id('general_settings','73','value'),
@@ -75,8 +75,17 @@ class Email_model extends CI_Model
 			'mailtype'  => 'html', 
 			'charset'   => 'iso-8859-1'
 		);
+        /*$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'smtp-relay.brevo.com',
+			'smtp_port' => "587",
+			'smtp_user' => "rashid.makent@gmail.com",
+			'smtp_pass' => "62Qkb5RKJBZCX8f3",
+			'mailtype'  => 'html', 
+			'charset'   => 'iso-8859-1'
+		);*/       
 
-       $this->load->library('email', $config); */
+       $this->load->library('email', $config); 
         $this->load->library('email');
 		$this->email->clear(TRUE);
         $this->email->set_newline("\r\n");

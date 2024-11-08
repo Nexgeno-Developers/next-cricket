@@ -25,7 +25,17 @@ foreach($players_data as $row){
 						<input type="file" name="image" id="image" class="form-control" placeholder="Player Profile" >
 					</div>
 				</div>
-                      
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="demo-hor-1">Profile Type</label>
+					<div class="col-sm-6">
+						<select class="form-control required" id="profile_type" name="profile_type">
+							<option value="">Select Profile Type</option>
+							<option value="Men" <?php if($row['profile_type']=='Men') echo 'Selected'; ?>>Men</option>
+							<option value="Women" <?php if($row['profile_type']=='Women') echo 'Selected'; ?>>Women</option>
+							<option value="Senior Citizen" <?php if($row['profile_type']=='Senior Citizen') echo 'Selected'; ?>>Senior Citizen</option>
+						</select>
+					</div>
+				</div>                      
 				<div class="form-group">
 					<label class="col-sm-4 control-label" for="demo-hor-1">Type</label>
 					<div class="col-sm-6">

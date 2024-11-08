@@ -20,6 +20,17 @@
 			</div>
 		</div>
 		<div class="form-group">
+			<label class="col-sm-4 control-label" for="demo-hor-1">Profile Type</label>
+			<div class="col-sm-6">
+				<select class="form-control required" id="profile_type" name="profile_type">
+					<option value="">Select Profile Type</option>
+					<option value="Men">Men</option>
+					<option value="Women">Women</option>
+					<option value="Senior Citizen">Senior Citizen</option>
+				</select>
+			</div>
+		</div>		
+		<div class="form-group">
 			<label class="col-sm-4 control-label" for="demo-hor-1">Type</label>
 			<div class="col-sm-6">
 				<select class="form-control required" id="type" name="type">

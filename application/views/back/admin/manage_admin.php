@@ -36,7 +36,7 @@
 										<?php echo translate('email');?>
                                         	</label>
                                     <div class="col-sm-6">
-                                        <input type="email" name="email" value="<?php echo $row['email']; ?>" id="demo-hor-2" class="form-control required">
+                                        <input readonly type="email" name="email" value="<?php echo $row['email']; ?>" id="demo-hor-2" class="form-control required">
                                     </div>
                                 </div>
                                 <div class="form-group">
