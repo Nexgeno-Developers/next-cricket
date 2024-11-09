@@ -242,7 +242,17 @@ class Admin extends CI_Controller
 		if (!$this->crud_model->admin_permission()) {
 			redirect(base_url());
 		}
-		if ($para1 == 'do_add') {		
+		if ($para1 == 'do_add') {
+			
+			// Check if email already exists
+			$email_exists = $this->db->where('email', $this->input->post('owner_email'))->get('admin')
+			->num_rows() > 0;
+			
+			if ($email_exists) {
+				echo "Error: The email address is already in use.";
+				return;  // Ensure no further code is executed
+			}
+
 			$data['teams_name'] = $this->input->post('teams_name');
 			$data['virtual_point'] = $this->input->post('virtual_point');
 			$data['league'] = $this->input->post('league');
@@ -286,10 +296,52 @@ class Admin extends CI_Controller
 			}
 			$this->load->view('back/admin/teams_edit', $page_data);
 		} else if ($para1 == 'booster') {
+
 			$page_data['plans'] = $this->db->get('plans')->result_array();
-			$page_data['teams_data'] = $this->db->get_where('teams', array('teams_id' => $para2))->result_array();
-			$page_data['transactions'] = $this->db->get_where('transactions', array('id' => $page_data['teams_data']['id']))->result_array();
+			$page_data['teams_data'] = $this->db->get_where('teams', array('teams_id' => $para2))->row_array();
+			$page_data['transactions'] = $this->db->order_by('id', 'desc')
+			->get_where('transactions', array('team_id' => $page_data['teams_data']['teams_id']))
+			->result_array();
 			$this->load->view('back/admin/booster_edit', $page_data);
+
+		} elseif ($para1 == "update-booster") {
+			$data = [
+				'user_id' => $this->session->userdata('admin_id'),
+				'team_id' => $this->input->post('team'),
+				'plan_id' => $this->input->post('plan_id'),
+				'amount' => $this->input->post('amount'),
+				'type' => 'credit'
+			];
+			
+			// Insert into transactions table and get the inserted ID
+			$this->db->insert('transactions', $data);
+			$id = $this->db->insert_id();
+			
+			// Calculate the new virtual point
+			$booster_point = [
+				'virtual_point' => $this->input->post('old_amount') + $data['amount']
+			];
+			
+			// Update the teams table with the new virtual point
+			$this->db->where('teams_id', $data['team_id']);
+			$this->db->update('teams', $booster_point);
+
+			recache();
+
+		} elseif ($para1 == 'delete') {		
+			if(file_exists('uploads/teams_image/'.$this->crud_model->get_type_name_by_id('teams',$para2,'logo'))){
+				unlink("uploads/teams_image/" .$this->crud_model->get_type_name_by_id('teams',$para2,'logo'));
+				unlink("uploads/teams_image/" .$this->crud_model->get_type_name_by_id('teams',$para2,'logo_thumb'));
+			}
+			$this->db->where('teams_id', $para2);
+			$this->db->delete('teams');
+			recache();
+		} 
+		elseif($para1 == 'delete_player')
+		{
+			$this->db->where('players_id', $para2);
+			$this->db->delete('soldplayers');	
+			recache();
 		} elseif ($para1 == "update") {
 			$data['teams_name'] = $this->input->post('teams_name');
 			$data['virtual_point'] = $this->input->post('virtual_point');

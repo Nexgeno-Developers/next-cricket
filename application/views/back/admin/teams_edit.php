@@ -26,9 +26,9 @@
 			</div>
 		</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label" for="demo-hor-1">Virtual Point</label>
+				<!-- <label class="col-sm-4 control-label" for="demo-hor-1">Virtual Point</label> -->
 					<div class="col-sm-6">
-						<input type="text" name="virtual_point" value="<?= $row['virtual_point'];?>" id="demo-hor-1"	placeholder="Virtual Point" class="form-control required">
+						<input type="hidden" name="virtual_point" value="<?= $row['virtual_point'];?>" id="demo-hor-1"	placeholder="Virtual Point" class="form-control required" readonly>
 					</div>
 			</div>
 			<div class="form-group">
