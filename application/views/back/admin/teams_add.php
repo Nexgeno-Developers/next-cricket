@@ -24,9 +24,9 @@
 		</div>
 			
 			<div class="form-group">
-				<label class="col-sm-4 control-label" for="demo-hor-1">Virtual Point</label>
+				<!-- <label class="col-sm-4 control-label" for="demo-hor-1">Virtual Point</label> -->
 					<div class="col-sm-6">
-						<input type="number" name="virtual_point" id="demo-hor-1"	placeholder="Virtual Point" class="form-control required">
+						<input type="hidden" name="virtual_point" id="demo-hor-1"	placeholder="Virtual Point" class="form-control required" value="0">
 					</div>
 			</div>
 			

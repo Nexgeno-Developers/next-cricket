@@ -38,7 +38,9 @@
 				<td><?= isset($owner_data->name) ? $owner_data->name : '-'; ?></td>
 				<td><?= isset($owner_data->email) ? $owner_data->email : '-'; ?></td>
 				<td><?= isset($owner_data->phone) ? $owner_data->phone : '-'; ?></td>
-				<td><?= $row['virtual_point']; ?></td>
+				<td>
+					<?= $row['virtual_point']; ?><br>
+				</td>
 				<td>
 				    <?php 
 				    $total_solds = $this->db->select('sold_price')->where('teams_id', $row['teams_id'])->get('soldplayers')->result();
@@ -56,7 +58,7 @@
 					<a class="btn btn-mint btn-xs btn-labeled fa fa-location-arrow" href="javascript:void(0)" onclick="ajax_set_full('team_list', '<?= translate('title')?>', '<?= translate('successfully_edited!'); ?>', 'team_players_list', '<?= $row['teams_id']; ?>')" data-original-title="Edit" data-container="body" >View</a>
 
 					<a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
-					onclick="ajax_modal('booster','<?= translate('boster'); ?>','<?= translate('successfully_update!'); ?>','boster','<?php echo $row['teams_id']; ?>')" data-original-title="Edit" data-container="body">Booster</a>
+					onclick="ajax_modal('booster','<?= translate('boster'); ?>','<?= translate('successfully_update!'); ?>','teams_add','<?php echo $row['teams_id']; ?>')" data-original-title="Edit" data-container="body">Booster</a>
 
 					<?php if($this->session->userdata('role') != 3){ ?>
 					<a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
