@@ -242,7 +242,17 @@ class Admin extends CI_Controller
 		if (!$this->crud_model->admin_permission()) {
 			redirect(base_url());
 		}
-		if ($para1 == 'do_add') {		
+		if ($para1 == 'do_add') {
+			
+			// Check if email already exists
+			$email_exists = $this->db->where('email', $this->input->post('owner_email'))->get('admin')
+			->num_rows() > 0;
+			
+			if ($email_exists) {
+				echo "Error: The email address is already in use.";
+				return;  // Ensure no further code is executed
+			}
+
 			$data['teams_name'] = $this->input->post('teams_name');
 			$data['virtual_point'] = $this->input->post('virtual_point');
 			$data['league'] = $this->input->post('league');
@@ -286,7 +296,7 @@ class Admin extends CI_Controller
 			}
 			$this->load->view('back/admin/teams_edit', $page_data);
 		} else if ($para1 == 'booster') {
-			
+
 			$page_data['plans'] = $this->db->get('plans')->result_array();
 			$page_data['teams_data'] = $this->db->get_where('teams', array('teams_id' => $para2))->row_array();
 			$page_data['transactions'] = $this->db->order_by('id', 'desc')
