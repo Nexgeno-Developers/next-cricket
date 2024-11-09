@@ -53,7 +53,7 @@ a.dropdown-toggle i {
 <!-- SmartMenus jQuery Bootstrap Addon -->
 <script type="text/javascript" src="https://vadikom.github.io/smartmenus/src/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
 <div class="container">
-	<div class="navbar navbar-default" role="navigation">
+	<div class="navbar " role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
@@ -74,7 +74,7 @@ a.dropdown-toggle i {
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 			<?php if($this->crud_model->get_type_name_by_id('admin',$this->session->userdata('admin_id'),'role')==1){ ?>
-				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?> style="border-top:1px solid rgba(69, 74, 84, 0.7);">
+				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?>>
 					<a href="<?php echo base_url(); ?>index.php/admin/">
 						<i class="fa fa-tachometer"></i><span class="menu-title"> Dashboard</span>
 					</a>
@@ -143,6 +143,25 @@ a.dropdown-toggle i {
 						<i class="fa fa-lock"></i><span class="menu-title"> Profile</span>
 					</a>
 				</li>
+				<?php 
+				$role_id = $this->crud_model->get_type_name_by_id('admin', $this->session->userdata('admin_id'), 'role');
+				?>
+				<?php 
+				if($role_id == 1){ ?>
+					<li <?php if($page_name == "site_settings"){ ?> class="active-link" <?php } ?> >
+						<a href="<?php echo base_url(); ?>index.php/admin/site_settings/">
+							<i class="fa fa-cog"></i><span class="menu-title"> Settings</span>
+						</a>
+					</li>
+				<?php } ?>
+				<?php 
+				if($role_id == 3){ ?>
+					<li <?php if($page_name == "auction_rule"){ ?> class="active-link" <?php } ?> >
+						<a href="<?php echo base_url(); ?>index.php/admin/auction_rule/">
+							<i class="fa fa-gavel"></i><span class="menu-title"> Auction Rule</span>
+						</a>
+					</li>
+				<?php } ?>
 				<li style="display:block;">
 					<a href="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('title'); ?>/logout/" >
 						<i class="fa fa-sign-out fa-fw"></i> <?php echo translate('logout');?>

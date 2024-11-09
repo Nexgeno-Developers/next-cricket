@@ -20,7 +20,7 @@
     </div>
 	<!-- <div class="hide-fixed pull-right pad-rgt">Currently v<?php /* echo $this->db->get_where('general_settings',array('type'=>'version'))->row()->value;  */?></div> -->
 	<?php if($this->uri->segment(1) == null){ ?>
-	<div class="footer_logo"><a target="_blank" href="https://www.makent.in/"><img src="http://mak-cricket.webtesting.pw/uploads/user_image/logo.png"></a></div>
+	
 	<?php } ?>
-	<p class="pad-lft">&#0169; <?php echo date('Y');?> <a style="color:#cf67be" target="_blank" href="https://www.nexgeno.in/">Nexgeno Technology Pvt Ltd 2023</a></p>
+	<!-- <p class="pad-lft">&#0169; <?php echo date('Y');?> <a style="color:#cf67be" target="_blank" href="https://www.nexgeno.in/">Nexgeno Technology Pvt Ltd</a></p> -->
 </footer>
