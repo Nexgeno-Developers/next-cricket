@@ -53,7 +53,7 @@ a.dropdown-toggle i {
 <!-- SmartMenus jQuery Bootstrap Addon -->
 <script type="text/javascript" src="https://vadikom.github.io/smartmenus/src/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
 <div class="container">
-	<div class="navbar navbar-default" role="navigation">
+	<div class="navbar " role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
@@ -74,7 +74,7 @@ a.dropdown-toggle i {
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 			<?php if($this->crud_model->get_type_name_by_id('admin',$this->session->userdata('admin_id'),'role')==1){ ?>
-				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?> style="border-top:1px solid rgba(69, 74, 84, 0.7);">
+				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?>>
 					<a href="<?php echo base_url(); ?>index.php/admin/">
 						<i class="fa fa-tachometer"></i><span class="menu-title"> Dashboard</span>
 					</a>
