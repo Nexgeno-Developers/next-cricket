@@ -23,7 +23,7 @@
 							<div class="text-center">
 								<!--<canvas id="gauge3" height="70" class="canvas-responsive"></canvas>-->
 								<p class="h4">
-									<span id="gauge3-txt" class="label label-black"><?= $this->crud_model->get_type_name_by_id('league',$cur_league['league_id'],'league_name'); ?></span>
+									<span id="gauge3-txt" class="label font24"><?= $this->crud_model->get_type_name_by_id('league',$cur_league['league_id'],'league_name'); ?></span>
 								</p>
 							</div>
 						</div>
@@ -159,7 +159,15 @@
 	<?php } ?>
 </div>
 
+
+<div id="content-container" class="container">
+		<div id="page-content">
+			<h4 class="sponsor_heading"> Sponsors</h4>
+			<div class="row box_center">
+				
 <?php foreach ($sponsors as $row) { ?>
+	<div class="col-md-2 text-center">
+		<div class="sponsord_box">
     <a href="<?php echo htmlspecialchars($row->website_url); ?>">
         <?php if (!empty($row->logo) && file_exists('uploads/sponsors_image/' . $row->logo)) { ?>
             <img class="img-md" src="<?php echo base_url('uploads/sponsors_image/' . $row->logo); ?>" alt="Sponsor Logo" />
@@ -168,8 +176,12 @@
         <?php } ?>
         <p><?php echo htmlspecialchars($row->promotion_text); ?></p>
     </a>
+	</div>
+	</div>
 <?php } ?>
-
+		</div>
+		</div>
+		</div>
 
 
 
