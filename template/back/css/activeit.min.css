@@ -8006,7 +8006,7 @@ span.nextPlayer.glyphicon.glyphicon-chevron-right.btn.btn-primary {
 
 #container {
 	position: relative;
-	background-image: url(/cricket/uploads/cricket_bg.webp) !important;
+	background-image: url(/uploads/cricket_bg.webp) !important;
 	box-shadow: 1000px 1000px 1000px 1000px inset #000000ad;
 	background-size: cover !important;
 	background-repeat: no-repeat !important;
