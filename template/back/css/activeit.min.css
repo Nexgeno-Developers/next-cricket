@@ -768,7 +768,7 @@ mark,
 
 .cls-content {
 	padding: 50px 15px 15px;
-	padding-top: 13%;
+	padding-top: 8%;
 	position: relative
 }
 
@@ -8112,4 +8112,8 @@ h4.sponsor_heading {
 .btn.btn-primary {
 	background-image: linear-gradient(232deg, #B175DA 0%, #5A95DF 100%);
 	border: 0 !important;
+}
+
+p.MsoNormal {
+	color: #fff;
 }
