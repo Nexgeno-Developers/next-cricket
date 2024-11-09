@@ -8111,5 +8111,5 @@ h4.sponsor_heading {
 
 .btn.btn-primary {
 	background-image: linear-gradient(232deg, #B175DA 0%, #5A95DF 100%);
-	border: 0;
+	border: 0 !important;
 }
