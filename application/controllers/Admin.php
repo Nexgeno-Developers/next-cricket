@@ -1068,10 +1068,38 @@ class Admin extends CI_Controller
 	
 	/* Manage Site Settings */
 	function site_settings($para1 = ""){
-			$page_data['page_name'] = "site_settings";
-			$page_data['tab_name']  = $para1;
-			$this->load->view('back/index', $page_data);
+		// Get the current user's role ID
+		$role_id = $this->crud_model->get_type_name_by_id('admin', $this->session->userdata('admin_id'), 'role');
+		
+		// Check if the role ID is 3, otherwise redirect or show an error message
+		if ($role_id != 1) {
+			// Redirect to the admin dashboard or any other page you want
+			redirect('index.php/admin');  // You can change the path as needed
+			return;  // Ensure no further code is executed
+		}
+
+		$page_data['page_name'] = "site_settings";
+		$page_data['tab_name']  = $para1;
+		$this->load->view('back/index', $page_data);
 	}
+
+	function auction_rule($para1 = "") {
+		// Get the current user's role ID
+		$role_id = $this->crud_model->get_type_name_by_id('admin', $this->session->userdata('admin_id'), 'role');
+	
+		// Check if the role ID is 3, otherwise redirect or show an error message
+		if ($role_id != 3) {
+			// Redirect to the admin dashboard or any other page you want
+			redirect('index.php/admin');  // You can change the path as needed
+			return;  // Ensure no further code is executed
+		}
+	
+		// If role ID is 3, proceed with the function
+		$page_data['page_name'] = "auction_rule";
+		$page_data['tab_name']  = $para1;
+		$this->load->view('back/index', $page_data);
+	}
+	
 
 	/* Manage Email Template */
 	function email_template($para1 = "", $para2 = ""){

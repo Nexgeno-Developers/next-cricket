@@ -143,6 +143,25 @@ a.dropdown-toggle i {
 						<i class="fa fa-lock"></i><span class="menu-title"> Profile</span>
 					</a>
 				</li>
+				<?php 
+				$role_id = $this->crud_model->get_type_name_by_id('admin', $this->session->userdata('admin_id'), 'role');
+				?>
+				<?php 
+				if($role_id == 1){ ?>
+					<li <?php if($page_name == "site_settings"){ ?> class="active-link" <?php } ?> >
+						<a href="<?php echo base_url(); ?>index.php/admin/site_settings/">
+							<i class="fa fa-cog"></i><span class="menu-title"> Settings</span>
+						</a>
+					</li>
+				<?php } ?>
+				<?php 
+				if($role_id == 3){ ?>
+					<li <?php if($page_name == "auction_rule"){ ?> class="active-link" <?php } ?> >
+						<a href="<?php echo base_url(); ?>index.php/admin/auction_rule/">
+							<i class="fa fa-gavel"></i><span class="menu-title"> Auction Rule</span>
+						</a>
+					</li>
+				<?php } ?>
 				<li style="display:block;">
 					<a href="<?php echo base_url(); ?>index.php/<?php echo $this->session->userdata('title'); ?>/logout/" >
 						<i class="fa fa-sign-out fa-fw"></i> <?php echo translate('logout');?>
