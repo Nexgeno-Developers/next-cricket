@@ -13,13 +13,15 @@
         <div class="panel">
             <div class="tab-base tab-stacked-left">
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a data-toggle="tab" href="#demo-stk-lft-tab-1"><?php echo translate('terms_&_condition');?></a>
+                    <!-- <li class="active">
+                        <a data-toggle="tab" href="#demo-stk-lft-tab-1"><?php //echo translate('terms_&_condition');?></a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#demo-stk-lft-tab-2"><?php echo translate('privacy_policy');?></a>
+                        <a data-toggle="tab" href="#demo-stk-lft-tab-2"><?php //echo translate('privacy_policy');?></a>
+                    </li> -->
+                    <li class="active"> <a data-toggle="tab"
+                            href="#demo-stk-lft-tab-3"><?php echo translate('auction_rule');?></a>
                     </li>
-                    <!-- <li> <a data-toggle="tab" href="#demo-stk-lft-tab-3"><?php //echo translate('about_us');?></a> </li> -->
                 </ul>
                 <div class="tab-content bg_grey">
                     <!--UPLOAD : terms and condition---------->
