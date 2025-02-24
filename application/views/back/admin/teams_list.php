@@ -62,7 +62,7 @@
                         onclick="ajax_set_full('team_list', '<?= translate('title')?>', '<?= translate('successfully_edited!'); ?>', 'team_players_list', '<?= $row['teams_id']; ?>')"
                         data-original-title="Edit" data-container="body">View</a>
 
-                    <a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip"
+                    <a class="btn btn-info btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip"
                         onclick="ajax_modal('booster','<?= translate('boster'); ?>','<?= translate('successfully_update!'); ?>','boster','<?php echo $row['teams_id']; ?>')"
                         data-original-title="Edit" data-container="body">Booster</a>
 

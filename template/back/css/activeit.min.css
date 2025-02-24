@@ -8117,3 +8117,10 @@ h4.sponsor_heading {
 p.MsoNormal {
 	color: #fff;
 }
+
+.columns.columns-right.btn-group.pull-right button.btn.btn-default {
+	padding: 5px 12px !important;
+	background: #cc2424;
+	border: 0;
+	color: #fff;
+}

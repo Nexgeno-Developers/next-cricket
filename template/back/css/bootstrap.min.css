@@ -7816,3 +7816,13 @@ button.close {
 	top: 0;
 	z-index: 9999;
 }
+
+div#toolbar {
+	margin-bottom: 10px;
+}
+
+.fixed-table-toolbar .bars,
+.fixed-table-toolbar .columns,
+.fixed-table-toolbar .search {
+	margin-bottom: 0px !important;
+}
