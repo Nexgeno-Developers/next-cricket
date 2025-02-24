@@ -27,7 +27,7 @@
 				<!-- Wrapper for slides -->
 				<div class="">
 					<?php 
-						$row = $this->db->get_where('players', array('players_id'=>$unsold_curr_players_id))->row_array();
+						$row = $this->db->get_where('players', array('players_id'=>$bidding_data['player_id']))->row_array();
 					?>
 					<?php if(!empty($row['players_id'])) : ?>
 					<div class="item ">
@@ -96,52 +96,11 @@
 						</div>
 						
 						<div class="sold-section" style="display:<?php if(empty($teams_id)){echo 'block';}else{ echo 'none'; } ?>">
-							
+                            <div class="timer" id="timer" style="font-size: 2rem; font-weight: bold; color: #333;">02:00</div>
 							<div class="col-md-4"></div>
-							<?php /*
-							<div class="col-md-4">
+                            <div class="col-md-4">
 									<?php
-									echo form_open(base_url() . 'index.php/admin/auction/sold_do_add/', array(
-										'class' => 'form-horizontal',
-										'method' => 'post',
-										'id' => 'sold_player',
-										'enctype' => 'multipart/form-data'
-									));
-									?>
-									<div class="form-group">
-										<input type="hidden" name="category_id" id="category_id" value="<?= $this->session->userdata('cat_id'); ?>">
-										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
-										<input type="hidden" name="players_id" id="players_id" value="<?= $row['players_id']; ?>">
-										<label class="col-sm-5 control-label" for="demo-hor-1">Sold Price</label>
-										<div class="col-sm-7">
-											<input type="text" name="sold_price" id="demo-hor-1"	placeholder="Sold Price" class="form-control required" required>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-5 control-label" for="demo-hor-1">Sold On Team</label>
-										<div class="col-sm-7">
-											<?php echo $this->crud_model->select_html('teams','teams_id','teams_name','add','form-control required','',NULL,NULL,NULL); ?>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-5"></div>
-										<div class="col-sm-12">
-										<div class="col-sm-6">
-											<input type="button" name="soldplayer" id="soldplayer"	value="Click To Sold" class="btn btn-purple">
-										</div>
-										<div class="col-sm-6">
-											<input type="button" name="unsold" id="unsold"	value="Unsold" class="btn btn-purple">
-										</div>
-										</div>
-									</div>
-								</form>
-							</div>
-
-							*/ ?>
-
-							<div class="col-md-4">
-									<?php
-									echo form_open(base_url() . 'index.php/admin/bidding/start_bidding/', array(
+									echo form_open(base_url() . 'index.php/admin/bidding/bid/', array(
 										'class' => 'form-horizontal',
 										'method' => 'post',
 										'id' => 'start_bidding',
@@ -149,18 +108,49 @@
 									));
 									?>
 									<div class="form-group">
-										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
-										<input type="hidden" name="players_id" id="players_id" value="<?= $row['players_id']; ?>">
+										<input type="hidden" name="session_id" id="session_id" value="<?= $bidding_data['session_id'] ?>">
+										<input type="hidden" name="team_id" id="team_id" value="<?= $this->session->userdata('team'); ?>">
+                                        <input name="amount" id="amount" class="required" require>
 									</div>
 									<div class="col-sm-6">
-										<button type="submit" class="btn btn-purple"> Start </button>
+										<button type="submit" class="btn btn-purple"> bid </button>
 									</div>
 								</form>
 							</div>
 
-
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sr No.</th>
+                                        <th>Owner ID</th>
+                                        <th>Team ID</th>
+                                        <th>Amount</th>
+                                        <th>Is Winner</th>
+                                        <th>Bid Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($bid_data as $data) { 
+                                        $owner_name = $this->db->select('name')->where('admin_id', $data['owner_id'])->get('admin')->row_array();
+                                        $teams_name = $this->db->select('teams_name')->where('teams_id', $data['team_id'])->get('teams')->row_array();
+                                        ?>
+                                        <tr>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= $owner_name['name']; ?></td>
+                                            <td><?= $teams_name['teams_name']; ?></td>
+                                            <td><?= $data['amount']; ?></td>
+                                            <td><?= $data['is_winner']; ?></td>
+                                            <td><?= $data['bid_time']; ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
 
 						</div>
+
+
 						<?php else : ?>
 							<div>
 								<center><h1><span style="color:aliceblue">No Players Left</span></h1></center>
@@ -168,8 +158,10 @@
 						<?php endif; ?>
 						
 				</div>
+                <?php /*
 				<span class="prevPlayer glyphicon glyphicon-chevron-left btn btn-primary" data_curr_id="<?= $unsold_curr_players_id; ?>" data_prev_id="" style="display:none;"></span>
 				<span class="nextPlayer glyphicon glyphicon-chevron-right btn btn-primary" data_curr_id="<?= $unsold_curr_players_id; ?>" data_next_id="<?= $unsold_next_players_id; ?>" style="display:<?php if(empty($unsold_next_players_id)){ echo 'none'; } ?>"></span>
+                */ ?>
 			</div>
 		</div>
 	</div>
@@ -370,8 +362,7 @@ $.ajaxSetup({
 
 
 $(document).ready(function() {
-	var base__url = '<?php echo base_url(); ?>';
-    $(document).on('submit', '#start_bidding', function(e) {
+    $('#start_bidding').submit(function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
 
 		console.log('working hero');
@@ -382,9 +373,6 @@ $(document).ready(function() {
 			data: $(this).serialize(), // Serialize form data
 			dataType: 'json', // Expect a JSON response
 			success: function(response) {
-
-				console.log(response);
-
 				// Clear any previous alerts
 				$('#scroll-top').next('#floating-top-right').remove();
 
@@ -416,8 +404,8 @@ $(document).ready(function() {
 						$(this).closest('#floating-top-right').remove();
 					});
 
-					setTimeout(function() {
-						window.location.href = base__url + 'index.php/admin/bidding/start/' + response.bid_id;
+                    setTimeout(function() {
+						location.reload();
 					}, 3000);
 
 				} else {
@@ -484,5 +472,148 @@ $(document).ready(function() {
 });
 
 
+    function win_Check(){
+        var base__url = '<?php echo base_url(); ?>';
+        var bid_id = '<?php echo $bidding_data['session_id'] ?>';
+
+        $.ajax({
+			url: base__url + 'index.php/admin/bidding/bid-win/' + bid_id, // The action URL from the form
+			type: $(this).attr('method'), // The method type from the form
+			data: $(this).serialize(), // Serialize form data
+			dataType: 'json', // Expect a JSON response
+			success: function(response) {
+				// Clear any previous alerts
+				$('#scroll-top').next('#floating-top-right').remove();
+
+
+				// Check if the response status is success or error
+				if (response.status === 'success') {
+					// Success alert
+					var successAlert = `
+						<div id="floating-top-right" class="floating-container">
+							<div class="alert-wrap in animated fadeIn">
+								<div class="alert alert-success" role="alert">
+									<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+									<div class="media">
+										<div class="media-left">
+											<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-check"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="alert-title"></h4>
+											<p class="alert-message">Successfully Edited!</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>`;
+					$('#scroll-top').after(successAlert);
+
+					// Close button click event
+					$('.alert-success .close').click(function() {
+						$(this).closest('#floating-top-right').remove();
+					});
+
+                    setTimeout(function() {
+						window.location.href = base__url + 'index.php/admin/bidding';
+					}, 3000);
+
+				} else {
+					// Error alert
+					var errorAlert = `
+						<div id="floating-top-right" class="floating-container">
+							<div class="alert-wrap in animated fadeIn">
+								<div class="alert alert-danger" role="alert">
+									<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+									<div class="media">
+										<div class="media-left">
+											<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="alert-title"></h4>
+											<p class="alert-message">Cancelled</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>`;
+					$('#scroll-top').after(errorAlert);
+
+					// Close button click event
+					$('.alert-danger .close').click(function() {
+						$(this).closest('#floating-top-right').remove();
+					});
+
+				}
+
+
+			},
+			error: function(xhr, status, error) {
+				// Clear any previous alerts
+				$('#scroll-top').next('#floating-top-right').remove();
+
+				// Error alert
+				var errorAlert = `
+					<div id="floating-top-right" class="floating-container">
+						<div class="alert-wrap in animated fadeIn">
+							<div class="alert alert-danger" role="alert">
+								<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+								<div class="media">
+									<div class="media-left">
+										<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+									</div>
+									<div class="media-body">
+										<h4 class="alert-title"></h4>
+										<p class="alert-message">Cancelled</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>`;
+				$('#scroll-top').after(errorAlert);
+
+				// Close button click event
+				$('.alert-danger .close').click(function() {
+					$(this).closest('#floating-top-right').remove();
+				});
+			}
+		});
+    }
+
+
+    // Function to start the timer
+    function startTimer(startTime, durationInMinutes) {
+        const startTimeMs = new Date(startTime).getTime();
+        const durationMs = durationInMinutes * 60 * 1000; // Convert minutes to milliseconds
+        const endTimeMs = startTimeMs + durationMs;
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const remainingMs = endTimeMs - now;
+
+            if (remainingMs <= 0) {
+                document.getElementById("timer").innerHTML = "00:00";
+                clearInterval(timerInterval);
+                // alert("Time is up!");  
+                win_Check(); 
+            } else {
+                const remainingMinutes = Math.floor(remainingMs / 60000);
+                const remainingSeconds = Math.floor((remainingMs % 60000) / 1000);
+                document.getElementById("timer").innerHTML =
+                    (remainingMinutes < 10 ? "0" : "") + remainingMinutes + ":" +
+                    (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
+            }
+        }
+
+        // Update the timer every second
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call to display immediately
+    }
+
+    // Define the start time and duration
+    const startTime = "<?php echo $bidding_data['start_time'] ?>"; // Replace with your start time
+    const durationInMinutes = 2; // 2-minute countdown
+
+    // Start the timer
+    startTimer(startTime, durationInMinutes);
 
 </script>

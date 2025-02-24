@@ -555,6 +555,380 @@ class Admin extends CI_Controller
 			$this->load->view('back/index', $page_data);
 		}
 	}
+
+
+	/*  bid  */
+	function bidding($para1 = '', $para2 = ''){
+		if (!$this->crud_model->admin_permission()) {
+			redirect(base_url());
+		}
+		if ($para1 == 'start_bidding') {	
+			$data['league_id'] = $this->input->post('league_id');
+			$data['player_id'] = $this->input->post('players_id');
+			$data['start_time'] = date('Y-m-d H:i:s'); // Current date and time
+			$data['end_time'] = date('Y-m-d H:i:s', strtotime('+2 minutes')); // Current date and time + 2 minutes
+			$data['created_by'] = $this->session->userdata('admin_id');
+
+			if ($this->db->insert('bid_sessions', $data)) {
+				$id = $this->db->insert_id();
+				$response = [
+					'status' => 'success',
+					'bid_id' => $id,
+					'message' => 'Successfully Edited!'
+				];
+			} else {
+				$response = [
+					'status' => 'error',
+					'message' => 'Cancelled'
+				];
+			}
+		
+			// Return the response as JSON
+			echo json_encode($response);
+			
+
+			/* recache(); */
+		} else if ($para1 == 'start') {
+
+			$page_data['bidding_data'] = $this->db->where('session_id', $para2)->get('bid_sessions')->row_array();
+
+			if($page_data['bidding_data']['status'] == 'active'){
+
+				if($page_data['bidding_data']['end_time'] >=  date('Y-m-d H:i:s')){
+
+					$page_data['page_name']  = "bidding_page";
+					$league_id = $this->session->userdata('league_id');
+					
+					/* Sold Players */
+					$this->db->select('players_id');
+					$this->db->where("soldplayers.league_id", $league_id);
+					$prev_soldplayers = $this->db->get('soldplayers')->result_array();
+					$page_data['prev_soldplayers'] = $prev_soldplayers;
+					$this->session->set_userdata('prev_soldplayers', $prev_soldplayers);
+					
+					/* fetch current player details */
+					$this->db->select('players_id');
+					if($this->session->userdata('cat_id')){
+						$this->db->where("category_id", $this->session->userdata('cat_id'));
+					}
+					if(count($page_data['prev_soldplayers'])>0){
+						$this->db->where_not_in("players_id", array_column($page_data['prev_soldplayers'], 'players_id'));
+					}
+					$this->db->order_by("order_id", "asc"); //$this->db->order_by("players_id", "asc");
+					$page_data['unsold_players_id'] = $this->db->get('players')->result_array();
+					$unsoldplayer = array_column($page_data['unsold_players_id'], 'players_id');
+					
+					$page_data['unsold_players_id'] = $unsoldplayer;
+					$this->session->set_userdata('unsoldplayer', $unsoldplayer);
+					$page_data['unsold_curr_players_id'] = $page_data['unsold_next_players_id'] = $page_data['teams_id'] = $page_data['sold_price'] = "";
+					if(count($unsoldplayer)>0){
+						/* get sold status player details */
+						$playersold = $this->db->get_where('soldplayers',array('players_id'=>$unsoldplayer[0], 'league_id'=>$league_id))->row_array();
+						if(!empty($playersold )){
+							$page_data['teams_id'] = $this->crud_model->get_type_name_by_id('teams', $playersold['teams_id'], 'teams_name');
+							$page_data['logo'] = $this->crud_model->get_type_name_by_id('teams', $playersold['teams_id'], 'logo_thumb');
+							$page_data['logo'] = $page_data['logo'] ? $page_data['logo'] : 'default.jpg';
+							$page_data['sold_price'] = $playersold['sold_price'];
+						}
+						$this->crud_model->update_auction_player($league_id, $unsoldplayer[0]);
+						$page_data['unsold_curr_players_id'] = $unsoldplayer[0];
+						
+					}
+					if(count($unsoldplayer)>1){
+						$page_data['unsold_next_players_id'] = $unsoldplayer[1];
+					}
+					$page_data['cur_lid'] = $league_id;
+
+					$page_data['bid_data'] = $this->db->where('session_id', $page_data['bidding_data']['session_id'])->order_by('id', 'DESC')->get('bids')->result_array();
+
+					$this->load->view('back/index', $page_data);
+
+				
+				} else {
+
+					$bid_data = $this->db->where('session_id', $para2)->order_by('amount', 'DESC')->limit(1)->get('bids')->row_array();
+
+					// Debug output (optional, can be removed in production)
+		
+					// Check if bid data is found
+					if (!empty($bid_data)) {
+					// Get bid session and player data
+					$bid_session = $this->db->where('session_id', $bid_data['session_id'])->get('bid_sessions')->row_array();
+					$player_data = $this->db->select('category_id')->where('players_id', $bid_session['player_id'])->get('players')->row_array();
+		
+					// Prepare data for inserting into soldplayers table
+					$data = [
+					'players_id' => $bid_session['player_id'],
+					'category_id' => $player_data['category_id'],
+					'teams_id' => $bid_data['team_id'],
+					'league_id' => $bid_session['league_id'],
+					'sold_price' => $bid_data['amount']
+					];
+		
+					// Insert data into soldplayers table and check if successful
+					if ($this->db->insert('soldplayers', $data)) {
+						// Update bid_sessions status to 'closed'
+						$this->db->where('session_id', $bid_session['session_id'])
+								->update('bid_sessions', ['status' => 'closed']);
+		
+						// Update bids table to set is_winner for the highest bid
+						$this->db->where('id', $bid_data['id'])
+								->update('bids', ['is_winner' => 1]);
+		
+					// Prepare success response
+					$response = [
+						'status' => 'success',
+						'message' => 'Successfully added the bid!'
+						];
+		
+					} else {
+					// Prepare error response if insertion failed
+					$response = [
+						'status' => 'error',
+						'message' => 'Cancelled'
+						];
+					}
+		
+					// Return response as JSON
+						redirect(base_url('index.php/admin/bidding'));
+		
+					} else {
+					// If no bid data found, handle as unsold
+		
+					// Get bid session and player data
+					$bid_session = $this->db->where('session_id', $para2)->get('bid_sessions')->row_array();
+					$player_data = $this->db->select('category_id')->where('players_id', $bid_session['player_id'])->get('players')->row_array();
+		
+					// Prepare data for inserting into unsold table
+					$data = [
+						'players_id' => $bid_session['player_id'],
+						'category_id' => $player_data['category_id']
+						];
+		
+					// Insert data into unsold table and check if successful
+					if ($this->db->insert('unsold', $data)) {
+		
+						$this->db->where('session_id', $bid_session['session_id'])
+						->update('bid_sessions', ['status' => 'closed']);
+		
+					// Prepare success response
+					$response = [
+						'status' => 'success',
+						'message' => 'Successfully added the bid!'
+						];
+		
+					} else {
+					// Prepare error response if insertion failed
+		
+					$response = [
+						'status' => 'error',
+						'message' => 'Cancelled'
+						];
+					}
+		
+					// Return response as JSON
+						redirect(base_url('index.php/admin/bidding'));
+		
+					}
+
+
+				}
+
+			} else {
+				redirect(base_url('index.php/admin/'));
+			}
+			
+		} elseif ($para1 == "bid") {
+			$team_point = $this->db->select('virtual_point')
+						->where('teams_id', $this->input->post('team_id'))
+						->get('teams')
+						->row_array();
+
+			$purchased_point = $this->db->select_sum('sold_price')
+							->where('teams_id', $this->input->post('team_id'))
+							->get('soldplayers')
+							->row()
+							->sold_price;
+
+			$remaining_point = $team_point['virtual_point'] - $purchased_point;
+			// Check if the remaining points are greater than or equal to the amount specified in the post request
+			if ($remaining_point < (int)$this->input->post('amount')) {
+				$response = [
+					'status' => 'error',
+					'message' => 'Cancelled'
+				];
+
+				// Return response as JSON
+				echo json_encode($response);
+				exit();
+			}
+
+
+			if ($team_point['virtual_point'] < (int)$this->input->post('amount')) {
+				$response = [
+					'status' => 'error',
+					'message' => 'Cancelled'
+				];
+
+				// Return response as JSON
+				echo json_encode($response);
+				exit();
+			}
+
+			$player_data = $this->db->select('s.player_id, p.category_id, c.base_price')
+				->from('bid_sessions as s')
+				->where('s.session_id', $this->input->post('session_id'))
+				->join('players as p', 'p.players_id = s.player_id')
+				->join('category as c', 'c.category_id = p.category_id')
+				->get()
+				->row_array();
+
+			if ($player_data['base_price'] > (int)$this->input->post('amount')) {
+				$response = [
+					'status' => 'error',
+					'message' => 'Cancelled'
+				];
+
+				// Return response as JSON
+				echo json_encode($response);
+				exit();
+			}	
+
+			
+
+			$data['session_id'] = $this->input->post('session_id');
+			$data['owner_id'] = $this->session->userdata('admin_id');
+			$data['team_id'] = $this->input->post('team_id');
+			$data['amount'] = $this->input->post('amount');
+			$data['bid_time'] = date('Y-m-d H:i:s');
+
+			if ($this->db->insert('bids', $data)) {
+				$id = $this->db->insert_id();
+				$response = [
+					'status' => 'success',
+					'bid_id' => $id,
+					'message' => 'Successfully added the bid!'
+				];
+			} else {
+				$response = [
+					'status' => 'error',
+					'message' => 'Cancelled'
+				];
+			}
+		
+			// Return the response as JSON
+			echo json_encode($response);
+
+		} elseif ($para1 == 'bid-win') {	
+			
+			$bid_data = $this->db->where('session_id', $para2)->order_by('amount', 'DESC')->limit(1)->get('bids')->row_array();
+
+			// Debug output (optional, can be removed in production)
+
+			// Check if bid data is found
+			if (!empty($bid_data)) {
+			// Get bid session and player data
+			$bid_session = $this->db->where('session_id', $bid_data['session_id'])->get('bid_sessions')->row_array();
+			$player_data = $this->db->select('category_id')->where('players_id', $bid_session['player_id'])->get('players')->row_array();
+
+			// Prepare data for inserting into soldplayers table
+			$data = [
+			'players_id' => $bid_session['player_id'],
+			'category_id' => $player_data['category_id'],
+			'teams_id' => $bid_data['team_id'],
+			'league_id' => $bid_session['league_id'],
+			'sold_price' => $bid_data['amount']
+			];
+
+			// Insert data into soldplayers table and check if successful
+			if ($this->db->insert('soldplayers', $data)) {
+				// Update bid_sessions status to 'closed'
+				$this->db->where('session_id', $bid_session['session_id'])
+						->update('bid_sessions', ['status' => 'closed']);
+
+				// Update bids table to set is_winner for the highest bid
+				$this->db->where('id', $bid_data['id'])
+						->update('bids', ['is_winner' => 1]);
+
+			// Prepare success response
+			$response = [
+				'status' => 'success',
+				'message' => 'Successfully added the bid!'
+				];
+
+			} else {
+			// Prepare error response if insertion failed
+			$response = [
+				'status' => 'error',
+				'message' => 'Cancelled'
+				];
+			}
+
+			// Return response as JSON
+			echo json_encode($response);
+
+			} else {
+			// If no bid data found, handle as unsold
+
+			// Get bid session and player data
+			$bid_session = $this->db->where('session_id', $para2)->get('bid_sessions')->row_array();
+			$player_data = $this->db->select('category_id')->where('players_id', $bid_session['player_id'])->get('players')->row_array();
+
+			// Prepare data for inserting into unsold table
+			$data = [
+				'players_id' => $bid_session['player_id'],
+				'category_id' => $player_data['category_id']
+				];
+
+			// Insert data into unsold table and check if successful
+			if ($this->db->insert('unsold', $data)) {
+
+				$this->db->where('session_id', $bid_session['session_id'])
+				->update('bid_sessions', ['status' => 'closed']);
+
+			// Prepare success response
+			$response = [
+				'status' => 'success',
+				'message' => 'Successfully added the bid!'
+				];
+
+			} else {
+			// Prepare error response if insertion failed
+
+			$response = [
+				'status' => 'error',
+				'message' => 'Cancelled'
+				];
+			}
+
+			// Return response as JSON
+			echo json_encode($response);
+
+			}
+
+
+
+		}  elseif ($para1 == 'list') {
+
+			$this->db->order_by('session_id', 'desc');
+			$page_data['bid_sessions'] = $this->db->get('bid_sessions')->result_array();
+			
+			$this->load->view('back/admin/bidding_list', $page_data);
+		
+		}  elseif ($para1 == 'edit') {
+
+			$this->db->order_by('amount', 'desc');
+			$page_data['bidding'] = $this->db->get_where('bids', array('session_id' => $para2))->result_array();
+
+			$this->load->view('back/admin/bidding_view', $page_data);
+
+		} else {
+			$page_data['page_name']      = "bidding";
+			$page_data['all_teams'] = $this->db->get('bid_sessions')->result_array();
+
+			$this->load->view('back/index', $page_data);
+		}
+	}
  
 	/* Managing League  */
 	function league($para1 = '', $para2 = ''){
@@ -983,6 +1357,17 @@ class Admin extends CI_Controller
 						$this->session->set_userdata('role', $row['role']);
 						$this->session->set_userdata('admin_name', $row['name']);
 						$this->session->set_userdata('title', 'admin');
+
+						$team = $this->db->select('teams_id')->where('owner_id', $row['admin_id'])->get('teams')->row_array();
+
+						if ($team) {
+
+							$this->session->set_userdata('team', $team['teams_id']);
+						} else {
+							$this->session->set_userdata('team', null);
+						}
+						
+
 						echo 'lets_login';
 					}
 				} else {

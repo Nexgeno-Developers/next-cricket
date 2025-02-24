@@ -4,7 +4,7 @@
 			echo form_open(base_url() . 'index.php/admin/teams/update-booster/' . $teams_data['teams_id'], array(
 				'class' => 'form-horizontal',
 				'method' => 'post',
-				'id' => 'teams_add',
+				'id' => 'boster',
 				'enctype' => 'multipart/form-data'
 			));
 		?>
@@ -16,7 +16,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="league">Type</label>
 			<div class="col-sm-6">
-				<select class="form-control" id="league" name="plan_id" required>
+				<select class="form-control required" id="league" name="plan_id" required>
 					<option value="">Select type</option>
 					<?php foreach($plans as $row) { ?>
 					<option value="<?php echo $row['id']; ?>" data-amount="<?php echo $row['get_amount']; ?>">
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label class="col-sm-4 control-label" for="demo-hor-1">Virtual Point</label>
                 <div class="col-sm-6">
-                    <input type="text" name="amount"  id="demo-hor-1" placeholder="Virtual Amount" class="form-control required" required>
+                    <input type="text" name="amount"  id="demo-hor-1" placeholder="Virtual Amount" class="form-control required" required readonly>
                 </div>
         </div>
 

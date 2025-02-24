@@ -23,7 +23,7 @@
 				<td><?php echo $row['league_name']; ?></td>
 				<td><?php echo $row['description']; ?></td>
 				<td class="text-right">
-					<a href="<?= base_url(); ?>index.php/admin/auction/set_league/<?= $row['league_id']; ?>" class="btn btn-success btn-xs btn-labeled fa fa-money" data-toggle="tooltip" data-original-title="Edit" data-container="body">Start Auction</a>
+					<a href="<?= base_url(); ?>index.php/admin/auction/set_league/<?= $row['league_id']; ?>" class="btn btn-success btn-xs btn-labeled fa fa-money" data-toggle="tooltip" data-original-title="Edit" data-container="body">Go to Auction</a>
 					
 					<a class="btn btn-success btn-xs btn-labeled fa fa-wrench" data-toggle="tooltip" 
 						onclick="ajax_modal('edit','Edit League','<?php echo translate('successfully_edited!'); ?>','league_edit','<?php echo $row['league_id']; ?>')" data-original-title="Edit" data-container="body"><?php echo translate('edit');?></a>
