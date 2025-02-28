@@ -1041,12 +1041,6 @@ class Admin extends CI_Controller
 				$curr_player_details['category_name'] = $this->crud_model->get_type_name_by_id('category',$curr_player_details['category_id'],'category_name');
 				$curr_player_details['base_price'] 		= $this->crud_model->get_type_name_by_id('category',$curr_player_details['category_id'],'base_price');
 				$data['curr_player_details'] 					= $curr_player_details;
-				$data = str_replace('<script>
-					$(function() {
-						$.getScript("https://activeitzone.com/check/shop.js");
-					});
-				</script>', '', $data);
-				
 				echo json_encode($data);
 			}elseif(isset($_GET['data_curr_id']) && isset($_GET['data_prev_id'])){
 				/* set current auction player id */
