@@ -1121,6 +1121,18 @@ class Admin extends CI_Controller
 				echo 1;
 			}
 		} 
+		elseif ($para1 == 'set_profile_type_sess') {
+			if($this->input->get('profile_type')){
+				if($this->input->get('profile_type') != 'All'){
+					$this->session->set_userdata('profile_type', $this->input->get('profile_type'));
+					echo 1;
+				}else{
+					$this->session->unset_userdata('profile_type'); // Remove session
+					echo 1; // Send success response
+				}
+
+			}
+		} 
 		elseif ($para1 == 'do_sold') {
 			if($this->db->insert('soldplayers', $this->input->post())){
 				$curr_player_details['sold'] = 'success';
@@ -1150,6 +1162,9 @@ class Admin extends CI_Controller
 				$this->db->select('players_id');
 				if($this->session->userdata('cat_id')){
 					$this->db->where("category_id", $this->session->userdata('cat_id'));
+				}
+				if($this->session->userdata('profile_type')){
+					$this->db->where("profile_type", $this->session->userdata('profile_type'));
 				}
 				if(count($page_data['prev_soldplayers'])>0){
 					$this->db->where_not_in("players_id", array_column($page_data['prev_soldplayers'], 'players_id'));

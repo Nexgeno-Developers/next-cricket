@@ -19,6 +19,22 @@
 				</div>
 			</div>
 		</div>
+
+		
+		<div class="col-md-3">
+			<div class="form-group" style="font-size: 16px;"><br>
+				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff">Type</label>
+				<div class="col-sm-6"style=" z-index: 999999999;">
+				<select class="form-control required" id="profile_type" name="profile_type">
+					<option value="All">All</option>
+					<option value="Men" <?php if ($this->session->userdata('profile_type') == 'Men') echo 'selected'; ?>>Men</option>
+					<option value="Women" <?php if ($this->session->userdata('profile_type') == 'Women') echo 'selected'; ?>>Women</option>
+					<option value="Senior Citizen" <?php if ($this->session->userdata('profile_type') == 'Senior Citizen') echo 'selected'; ?>>Senior Citizen</option>
+					<option value="Kids" <?php if ($this->session->userdata('profile_type') == 'Kids') echo 'selected'; ?>>Kids</option>
+				</select>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="tab-base">
@@ -27,7 +43,18 @@
 				<!-- Wrapper for slides -->
 				<div class="">
 					<?php 
-						$row = $this->db->get_where('players', array('players_id'=>$unsold_curr_players_id))->row_array();
+						//$row = $this->db->get_where('players', array('players_id'=>$unsold_curr_players_id))->row_array();
+
+						if ($this->session->userdata('profile_type')) {
+							$row = $this->db->where('profile_type', $this->session->userdata('profile_type'))
+							->get_where('players', array('players_id' => $unsold_curr_players_id))
+							->row_array();
+						} else {
+							$row = $this->db->get_where('players', array('players_id' => $unsold_curr_players_id))->row_array();
+
+							// var_dump($row);
+						}
+
 					?>
 					<?php if(!empty($row['players_id'])) : ?>
 					<div class="item ">
@@ -98,7 +125,7 @@
 						<div class="sold-section" style="display:<?php if(empty($teams_id)){echo 'block';}else{ echo 'none'; } ?>">
 							
 							<div class="col-md-4"></div>
-							<?php /*
+
 							<div class="col-md-4">
 									<?php
 									echo form_open(base_url() . 'index.php/admin/auction/sold_do_add/', array(
@@ -137,8 +164,8 @@
 								</form>
 							</div>
 
-							*/ ?>
 
+<?php /*
 							<div class="col-md-4">
 									<?php
 									echo form_open(base_url() . 'index.php/admin/bidding/start_bidding/', array(
@@ -157,7 +184,7 @@
 									</div>
 								</form>
 							</div>
-
+*/ ?>
 
 
 						</div>
@@ -483,6 +510,72 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function () {
+    $('#profile_type').on('change', function () {
+        var selectedValue = $(this).val();
+        
+        if (selectedValue) {
+            $.ajax({
+				url: base_url+'index.php/'+user_type+'/'+module+'/set_profile_type_sess',
+                type: 'GET',
+                data: { profile_type: selectedValue },
+                success: function (response) {
+                    if (response == 1) {
+                        location.reload(); 
+                    } else {
+						var errorAlert = `
+							<div id="floating-top-right" class="floating-container">
+								<div class="alert-wrap in animated fadeIn">
+									<div class="alert alert-danger" role="alert">
+										<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+										<div class="media">
+											<div class="media-left">
+												<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+											</div>
+											<div class="media-body">
+												<h4 class="alert-title"></h4>
+												<p class="alert-message">Please Try Again</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>`;
+						$('#scroll-top').after(errorAlert);
 
+						// Close button click event
+						$('.alert-danger .close').click(function() {
+							$(this).closest('#floating-top-right').remove();
+						});
+                    }
+                },
+                error: function () {
+					var errorAlert = `
+						<div id="floating-top-right" class="floating-container">
+							<div class="alert-wrap in animated fadeIn">
+								<div class="alert alert-danger" role="alert">
+									<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+									<div class="media">
+										<div class="media-left">
+											<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="alert-title"></h4>
+											<p class="alert-message">Something Went Wrong</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>`;
+					$('#scroll-top').after(errorAlert);
+
+					// Close button click event
+					$('.alert-danger .close').click(function() {
+						$(this).closest('#floating-top-right').remove();
+					});
+                }
+            });
+        }
+    });
+});
 
 </script>
