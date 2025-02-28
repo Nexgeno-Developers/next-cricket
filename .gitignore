@@ -7,3 +7,5 @@ config.php
 *.sql
 application/config/database.php
 application/config/config.php
+/uploads
+/uploads/*

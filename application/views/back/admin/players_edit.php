@@ -33,6 +33,7 @@ foreach($players_data as $row){
 							<option value="Men" <?php if($row['profile_type']=='Men') echo 'Selected'; ?>>Men</option>
 							<option value="Women" <?php if($row['profile_type']=='Women') echo 'Selected'; ?>>Women</option>
 							<option value="Senior Citizen" <?php if($row['profile_type']=='Senior Citizen') echo 'Selected'; ?>>Senior Citizen</option>
+							<option value="Kids" <?php if($row['profile_type']=='Kids') echo 'Selected'; ?>>Kids</option>
 						</select>
 					</div>
 				</div>                      
