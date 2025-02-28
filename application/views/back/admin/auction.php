@@ -8,7 +8,7 @@
 </style>
 <div id="content-container" class="container">
 	<div id="page-title">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<h2 class="page-header text-overflow" ><label>Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league',$cur_lid,'league_name'); ?> </h2>
 		</div>
 		<div class="col-md-6">
@@ -21,9 +21,9 @@
 		</div>
 
 		
-		<div class="col-md-3">
+		<div class="col-md-6">
 			<div class="form-group" style="font-size: 16px;"><br>
-				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff">Type</label>
+				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff">Player Type</label>
 				<div class="col-sm-6"style=" z-index: 999999999;">
 				<select class="form-control required" id="profile_type" name="profile_type">
 					<option value="All">All</option>

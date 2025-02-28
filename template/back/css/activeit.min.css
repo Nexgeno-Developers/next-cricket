@@ -8124,3 +8124,19 @@ p.MsoNormal {
 	border: 0;
 	color: #fff;
 }
+
+ul.nav.navbar-nav li a {
+    position: relative;
+    display: block;
+    padding: 10px 9px;
+    font-size: 14px !important;
+}
+
+.fixed-table-pagination .page-list {
+    display: inline-block;
+    color: #fff;
+}
+
+.fixed-table-pagination .pagination a {
+    color: #fff;
+}
