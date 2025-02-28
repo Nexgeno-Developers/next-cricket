@@ -148,8 +148,8 @@ public static function get_normalization_check($code) {
 	return $ucd_record[5];
 }
 public static function get_script($code) {
-	$ucd_record = self::get_ucd_record($code);
-	return $ucd_record[6];
+	// $ucd_record = self::get_ucd_record($code);
+	// return $ucd_record[6];
 }
 
 
