@@ -253,12 +253,14 @@ class Admin extends CI_Controller
 			
 			if ($email_exists) {
 				echo "Error: The email address is already in use.";
-				return;  // Ensure no further code is executed
+				//return;  // Ensure no further code is executed
+				exit();
 			}
 
 			if ($phone_exists) {
 				echo "Error: The Phone Number is already in use.";
-				return;  // Ensure no further code is executed
+				//return;  // Ensure no further code is executed
+				exit();
 			}
 
 			$data['teams_name'] = $this->input->post('teams_name');
