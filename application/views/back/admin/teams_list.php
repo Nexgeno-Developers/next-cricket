@@ -3,7 +3,7 @@
     <?php if($this->session->userdata('role') != 3){ ?>
     <div id="toolbar">
         <a class="btn btn-primary btn-labeled fa fa-plus-circle"
-            onclick="ajax_modal('add','Add Team','<?php echo 'test'; ?>','teams_add','')">Create
+            onclick="ajax_modal('add','Add Team','<?php echo translate('successfully_added!'); ?>','teams_add','')">Create
             Team</a>
     </div>
     <?php } ?>
