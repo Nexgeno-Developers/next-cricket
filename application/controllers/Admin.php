@@ -247,9 +247,17 @@ class Admin extends CI_Controller
 			// Check if email already exists
 			$email_exists = $this->db->where('email', $this->input->post('owner_email'))->get('admin')
 			->num_rows() > 0;
+
+			$phone_exists = $this->db->where('phone', $this->input->post('owner_phone'))->get('admin')
+			->num_rows() > 0;
 			
 			if ($email_exists) {
 				echo "Error: The email address is already in use.";
+				return;  // Ensure no further code is executed
+			}
+
+			if ($phone_exists) {
+				echo "Error: The Phone Number is already in use.";
 				return;  // Ensure no further code is executed
 			}
 
