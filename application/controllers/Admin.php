@@ -1042,6 +1042,7 @@ class Admin extends CI_Controller
 				$curr_player_details['base_price'] 		= $this->crud_model->get_type_name_by_id('category',$curr_player_details['category_id'],'base_price');
 				$data['curr_player_details'] 					= $curr_player_details;
 				echo json_encode($data);
+				exit;
 			}elseif(isset($_GET['data_curr_id']) && isset($_GET['data_prev_id'])){
 				/* set current auction player id */
 				$this->crud_model->update_auction_player($league_id, $_GET['data_prev_id']);
@@ -1091,6 +1092,7 @@ class Admin extends CI_Controller
 				$data['curr_player_details'] 						= $curr_player_details;
 				
 				echo json_encode($data);
+				exit;
 			}else{
 				$data['player_not_found'] = 'player_not_found';
 				echo json_encode($data);
@@ -1118,17 +1120,17 @@ class Admin extends CI_Controller
 				$this->db->where('league_id', $this->session->userdata('league_id'));
 				$this->db->update('league', $data);
 				/* reurn result */
-				echo 1;
+				echo 1;exit;
 			}
 		} 
 		elseif ($para1 == 'set_profile_type_sess') {
 			if($this->input->get('profile_type')){
 				if($this->input->get('profile_type') != 'All'){
 					$this->session->set_userdata('profile_type', $this->input->get('profile_type'));
-					echo 1;
+					echo 1;exit;
 				}else{
 					$this->session->unset_userdata('profile_type'); // Remove session
-					echo 1; // Send success response
+					echo 1;exit; // Send success response
 				}
 
 			}

@@ -1,5 +1,6 @@
 
 	<!--Activeit Admin [ RECOMMENDED ]-->
+	<script src="<?php echo base_url(); ?>template/back/js/activeit.js"></script>
 
 
 	<!--Morris.js [ OPTIONAL ]-->
