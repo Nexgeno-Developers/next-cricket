@@ -1120,17 +1120,17 @@ class Admin extends CI_Controller
 				$this->db->where('league_id', $this->session->userdata('league_id'));
 				$this->db->update('league', $data);
 				/* reurn result */
-				echo 1;
+				echo 1;exit;
 			}
 		} 
 		elseif ($para1 == 'set_profile_type_sess') {
 			if($this->input->get('profile_type')){
 				if($this->input->get('profile_type') != 'All'){
 					$this->session->set_userdata('profile_type', $this->input->get('profile_type'));
-					echo 1;
+					echo 1;exit;
 				}else{
 					$this->session->unset_userdata('profile_type'); // Remove session
-					echo 1; // Send success response
+					echo 1;exit; // Send success response
 				}
 
 			}
