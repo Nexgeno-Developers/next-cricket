@@ -342,6 +342,7 @@ class Admin extends CI_Controller
 			$this->db->where('players_id', $para2);
 			$this->db->delete('soldplayers');	
 			recache();
+			exit();
 		} elseif ($para1 == "update") {
 			$data['teams_name'] = $this->input->post('teams_name');
 			$data['virtual_point'] = $this->input->post('virtual_point');
@@ -1142,9 +1143,11 @@ class Admin extends CI_Controller
 				$curr_player_details['logo'] = $this->crud_model->get_type_name_by_id('teams', $this->input->post('teams_id'), 'logo_thumb');
 				$curr_player_details['sold_price'] = $this->input->post('sold_price');
 				echo json_encode($curr_player_details);
+				exit();
 			}else{
 				$curr_player_details['sold'] = 'error';
 				echo json_encode($curr_player_details);
+				exit();
 			}
 		}
 		else{
