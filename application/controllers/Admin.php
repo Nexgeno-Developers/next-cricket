@@ -800,7 +800,7 @@ class Admin extends CI_Controller
 			if ($player_data['base_price'] > (int)$this->input->post('amount')) {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled 34'
+					'message' => 'Cancelled'
 				];
 
 				// Return response as JSON
@@ -832,7 +832,7 @@ class Admin extends CI_Controller
 		
 			// Return the response as JSON
 			echo json_encode($response);
-
+			exit();
 		} elseif ($para1 == 'bid-win') {	
 			
 			$bid_data = $this->db->where('session_id', $para2)->order_by('amount', 'DESC')->limit(1)->get('bids')->row_array();
@@ -854,6 +854,22 @@ class Admin extends CI_Controller
 			'sold_price' => $bid_data['amount']
 			];
 
+			$allready_sold = $this->db->where('players_id', $bid_session['player_id'])
+				->where('league_id', $bid_session['league_id'])
+				->get('soldplayers')
+				->row_array();
+
+			// Check if the player is already sold
+			if (!empty($allready_sold)) {
+				// Prepare error response if player is already sold
+				$response = [
+					'status' => 'error',
+					'message' => 'Player is already sold!'
+				];
+				echo json_encode($response);
+				exit();
+			}
+			
 			// Insert data into soldplayers table and check if successful
 			if ($this->db->insert('soldplayers', $data)) {
 				// Update bid_sessions status to 'closed'
@@ -880,6 +896,7 @@ class Admin extends CI_Controller
 
 			// Return response as JSON
 			echo json_encode($response);
+			exit();
 
 			} else {
 			// If no bid data found, handle as unsold
@@ -917,7 +934,7 @@ class Admin extends CI_Controller
 
 			// Return response as JSON
 			echo json_encode($response);
-
+			exit();
 			}
 
 

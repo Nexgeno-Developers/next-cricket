@@ -96,7 +96,7 @@
 						</div>
 						
 						<div class="sold-section" style="display:<?php if(empty($teams_id)){echo 'block';}else{ echo 'none'; } ?>">
-                            <div class="timer" id="timer" style="font-size: 2rem; font-weight: bold; color: #333;">02:00</div>
+                            <div class="timer" id="timer" style="font-size: 2rem; font-weight: bold; color: #fff;">02:00</div>
 							<div class="col-md-4"></div>
                             <div class="col-md-4">
 									<?php
@@ -110,7 +110,7 @@
 									<div class="form-group">
 										<input type="hidden" name="session_id" id="session_id" value="<?= $bidding_data['session_id'] ?>">
 										<input type="hidden" name="team_id" id="team_id" value="<?= $this->session->userdata('team'); ?>">
-                                        <input name="amount" id="amount" class="required" require>
+                                        <input name="amount" id="amount" class="required" style="background: #000; color: #fff;" require>
 									</div>
 									<div class="col-sm-6">
 										<button type="submit" class="btn btn-purple"> bid </button>
