@@ -165,7 +165,7 @@
 							</div>
 
 
-<?php /*
+
 							<div class="col-md-4">
 									<?php
 									echo form_open(base_url() . 'index.php/admin/bidding/start_bidding/', array(
@@ -177,14 +177,14 @@
 									?>
 									<div class="form-group">
 										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
-										<input type="hidden" name="players_id" id="players_id" value="<?= $row['players_id']; ?>">
+										<input type="hidden" name="players_id" id="players_id_bid" value="<?= $row['players_id']; ?>">
 									</div>
 									<div class="col-sm-6">
 										<button type="submit" class="btn btn-purple"> Start </button>
 									</div>
 								</form>
 							</div>
-*/ ?>
+
 
 
 						</div>
@@ -339,6 +339,7 @@ $('body').on('click','.nextPlayer,.prevPlayer', function(){
 				/* for sold form */
 				$('#category_id').val(data.curr_player_details.category_id);
 				$('#players_id').val(data.curr_player_details.players_id);
+				$('#players_id_bid').val(data.curr_player_details.players_id);
 			}
 			
 			/* for current player */

@@ -764,9 +764,12 @@ class Admin extends CI_Controller
 			$remaining_point = $team_point['virtual_point'] - $purchased_point;
 			// Check if the remaining points are greater than or equal to the amount specified in the post request
 			if ($remaining_point < (int)$this->input->post('amount')) {
+
+
+
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled'
+					'message' => 'Cancelled here'
 				];
 
 				// Return response as JSON
@@ -778,7 +781,7 @@ class Admin extends CI_Controller
 			if ($team_point['virtual_point'] < (int)$this->input->post('amount')) {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled'
+					'message' => 'Cancelled 2'
 				];
 
 				// Return response as JSON
@@ -797,7 +800,7 @@ class Admin extends CI_Controller
 			if ($player_data['base_price'] > (int)$this->input->post('amount')) {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled'
+					'message' => 'Cancelled 34'
 				];
 
 				// Return response as JSON
@@ -823,7 +826,7 @@ class Admin extends CI_Controller
 			} else {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled'
+					'message' => 'Cancelled 5'
 				];
 			}
 		
