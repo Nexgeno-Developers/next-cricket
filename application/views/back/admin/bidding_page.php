@@ -125,11 +125,11 @@
                                         <th>Owner ID</th>
                                         <th>Team ID</th>
                                         <th>Amount</th>
-                                        <th>Is Winner</th>
+                                        <!-- <th>Is Winner</th> -->
                                         <th>Bid Time</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="bid_data">
                                     <?php
                                     $i = 1;
                                     foreach ($bid_data as $data) { 
@@ -141,7 +141,7 @@
                                             <td><?= $owner_name['name']; ?></td>
                                             <td><?= $teams_name['teams_name']; ?></td>
                                             <td><?= $data['amount']; ?></td>
-                                            <td><?= $data['is_winner']; ?></td>
+                                            <!-- <td><?= $data['is_winner']; ?></td> -->
                                             <td><?= $data['bid_time']; ?></td>
                                         </tr>
                                     <?php } ?>
@@ -619,5 +619,42 @@ $(document).ready(function() {
 
     // Start the timer
     startTimer(startTime, durationInMinutes);
+
+
+	function checkAndFetchBiddingData() {
+		const biddingDiv = document.getElementById("bid_data");
+		var base__url = '<?php echo base_url(); ?>';
+		var bid_id = '<?php echo $bidding_data['session_id'] ?>';
+
+		if (window.location.href.includes("/bidding/start/")) {
+			setInterval(() => {
+				fetch(base__url + 'index.php/admin/bidding/bid-data/' + bid_id)
+					.then(response => response.json())
+					.then(data => {
+						if (data.status === 'success') {
+							let rows = '';
+							let i = 1;
+							data.bid_data.forEach(bid => {
+								rows += `
+									<tr>
+										<td>${i++}</td>
+										<td>${bid.owner_name}</td>
+										<td>${bid.team_name}</td>
+										<td>${bid.amount}</td>
+										<td>${bid.bid_time}</td>
+									</tr>
+								`;
+							});
+							biddingDiv.innerHTML = rows;
+						}
+					})
+					.catch(error => {
+						console.error('AJAX error:', error);
+					});
+			}, 3000);
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", checkAndFetchBiddingData);
 
 </script>

@@ -936,8 +936,34 @@ class Admin extends CI_Controller
 			echo json_encode($response);
 			exit();
 			}
+		}  elseif ($para1 == 'bid-data') {
 
+			$this->db->select('session_id, owner_id, team_id, amount, bid_time');
+			$this->db->from('bids');
+			$this->db->where('session_id', $para2);
+			$this->db->order_by('amount', 'DESC');
+			$bid_data = $this->db->get()->result_array();
 
+			if (!empty($bid_data)) {
+				$bid_data = array_map(function($bid) {
+					$bid['owner_name'] = $this->crud_model->get_type_name_by_id('admin', $bid['owner_id'], 'name');
+					$bid['team_name'] = $this->crud_model->get_type_name_by_id('teams', $bid['team_id'], 'teams_name');
+					return $bid;
+				}, $bid_data);
+
+				$response = [
+					'status' => 'success',
+					'bid_data' => $bid_data
+				];
+			} else {
+				$response = [
+					'status' => 'empty',
+					'bid_data' => []
+				];
+			}
+
+			echo json_encode($response);
+			exit;
 
 		}  elseif ($para1 == 'list') {
 
@@ -948,7 +974,7 @@ class Admin extends CI_Controller
 		
 		}  elseif ($para1 == 'edit') {
 
-			$this->db->order_by('amount', 'desc');
+			$this->db->order_by('is_winner', 'desc');
 			$page_data['bidding'] = $this->db->get_where('bids', array('session_id' => $para2))->result_array();
 
 			$this->load->view('back/admin/bidding_view', $page_data);
