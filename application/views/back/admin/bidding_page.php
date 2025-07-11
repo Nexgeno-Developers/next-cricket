@@ -183,8 +183,11 @@
 									</form>
 								</div>
 							<?php } else { ?>
-
-								<button type="submit" onclick="win_Check()" class="btn btn-purple"> bid </button>
+								<div class="col-md-4">
+									<div class="flex_boxex">
+										<button type="submit" onclick="win_Check()" class="btn btn-danger"> Stop Bidding </button>
+									</div>
+								</div>
 
 							<?php } ?>
 						</div>
