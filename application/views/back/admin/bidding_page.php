@@ -111,7 +111,7 @@
 								</div>
 
 								<div class="col-md-12 text-center">
-									<div class="timer timer_aution" id="timer">03:00</div>
+									<div class="timer timer_aution" id="timer">02:00</div>
 								</div>
 								<br>
 								<div class="col-md-12 text-center mt-2">
@@ -226,7 +226,7 @@
 
 
 			<?php else : ?>
-				<div>
+				<div> 
 					<center>
 						<h1><span style="color:aliceblue">No Players Left</span></h1>
 					</center>
@@ -717,7 +717,7 @@
 
 	// Define the start time and duration
 	const startTime = "<?php echo $bidding_data['start_time'] ?>"; // Replace with your start time
-	const durationInMinutes = 3; // 3-minute countdown
+	const durationInMinutes = 2; // 3-minute countdown
 
 	// Start the timer
 	startTimer(startTime, durationInMinutes);
