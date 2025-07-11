@@ -113,7 +113,7 @@
 								<div class="col-md-12 text-center">
 									<div class="timer timer_aution" id="timer">03:00</div>
 								</div>
-
+								<br>
 								<div class="col-md-12 text-center mt-2">
 									<div id="flash-msg" style="display:none; padding: 10px; background: #4caf50; color: white; border-radius: 5px; margin-bottom: 10px;"></div>
 								</div>
