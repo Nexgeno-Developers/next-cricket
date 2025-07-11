@@ -156,7 +156,7 @@
 							$role_id = $this->crud_model->get_type_name_by_id('admin', $this->session->userdata('admin_id'), 'role');
 							?>
 							<?php
-							if ($role_id == 1) { ?>
+							if ($role_id != 1) { ?>
 
 								<div class="col-md-4">
 									<?php
@@ -183,6 +183,8 @@
 									</form>
 								</div>
 							<?php } else { ?>
+
+								
 
 							<?php } ?>
 						</div>
