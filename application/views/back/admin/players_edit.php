@@ -44,6 +44,7 @@ foreach($players_data as $row){
 						<option value="">Select Type</option>
 						<option value="Batsman" <?php if($row['type']=='Batsman') echo 'Selected'; ?>>Batsman</option>
 						<option value="Bowler" <?php if($row['type']=='Bowler') echo 'Selected'; ?>>Bowler</option>
+						<option value="Wicket Keeper - Batsman" <?php if($row['type']=='Wicket Keeper') echo 'Selected'; ?>>Wicket Keeper - Batsman</option>
 						<option value="All Rounder" <?php if($row['type']=='All Rounder') echo 'Selected'; ?>>All Rounder</option>
 					</select>
 					</div>
@@ -55,8 +56,10 @@ foreach($players_data as $row){
 						<option value="">Select Style</option>
 						<option value="Left Hand Batsman" <?php if($row['style']=='Left Hand Batsman') echo 'Selected'; ?>>Left Hand Batsman</option>
 						<option value="Right Hand Batsman" <?php if($row['style']=='Right Hand Batsman') echo 'Selected'; ?>>Right Hand Batsman</option>
-						<option value="Left Hand Bowler" <?php if($row['style']=='Left Hand Bowler') echo 'Selected'; ?>>Left Hand Bowler</option>
-						<option value="Right Hand Bowler" <?php if($row['style']=='Right Hand Bowler') echo 'Selected'; ?>>Right Hand Bowler</option>
+						<option value="Left Hand spin Bowler" <?php if($row['style']=='Left Hand spin Bowler') echo 'Selected'; ?>>Left Hand Spin Bowler</option>
+						<option value="Right Hand spin Bowler" <?php if($row['style']=='Right Hand spin Bowler') echo 'Selected'; ?>>Right Hand Spin Bowler</option>
+						<option value="Left Hand Fast Bowler" <?php if($row['style']=='Left Hand Fast Bowler') echo 'Selected'; ?>>Left Hand Fast Bowler</option>
+						<option value="Right Hand Fast Bowler" <?php if($row['style']=='Right Hand Fast Bowler') echo 'Selected'; ?>>Right Hand Fast Bowler</option>
 					</select>
 					</div>
 				</div>

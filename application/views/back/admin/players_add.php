@@ -38,6 +38,7 @@
 					<option value="">Select Type</option>
 					<option value="Batsman">Batsman</option>
 					<option value="Bowler">Bowler</option>
+					<option value="Wicket Keeper - Batsman">Wicket Keeper - Batsman</option>
 					<option value="All Rounder">All Rounder</option>
 				</select>
 			</div>
@@ -49,8 +50,10 @@
 					<option value="">Select Style</option>
 					<option value="Left Hand Batsman">Left Hand Batsman</option>
 					<option value="Right Hand Batsman">Right Hand Batsman</option>
-					<option value="Left Hand Bowler">Left Hand Bowler</option>
-					<option value="Right Hand Bowler">Right Hand Bowler</option>
+					<option value="Left Hand spin Bowler">Left Hand Spin Bowler</option>
+					<option value="Right Hand spin Bowler">Right Hand Spin Bowler</option>
+					<option value="Left Hand Fast Bowler">Left Hand Fast Bowler</option>
+					<option value="Right Hand Fast Bowler">Right Hand Fast Bowler</option>
 				</select>
 			</div>
 		</div>

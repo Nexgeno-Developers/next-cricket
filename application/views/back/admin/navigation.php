@@ -134,7 +134,7 @@ a.dropdown-toggle i {
 				</li>	 
 				<?php } ?>
 
-				<li <?php if($page_name=="league"){?> class="active-link" <?php } ?> >
+				<li <?php if($page_name=="bidding"){?> class="active-link" <?php } ?> >
 					<a href="<?php echo base_url(); ?>index.php/admin/bidding">
 						<i class="fa fa-calendar-o"></i> Bidding List
 					</a>

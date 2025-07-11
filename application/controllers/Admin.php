@@ -769,8 +769,13 @@ class Admin extends CI_Controller
 
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled here'
+					'message' => 'Insufficient Points'
 				];
+
+				$this->session->set_flashdata('flash_msg', [
+					'text' => 'Insufficient Points!',
+					'color' => '#f44336' // red
+				]);
 
 				// Return response as JSON
 				echo json_encode($response);
@@ -781,8 +786,13 @@ class Admin extends CI_Controller
 			if ($team_point['virtual_point'] < (int)$this->input->post('amount')) {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled 2'
+					'message' => 'Insufficient Points'
 				];
+
+				$this->session->set_flashdata('flash_msg', [
+					'text' => 'Insufficient Points!',
+					'color' => '#f44336' // red
+				]);
 
 				// Return response as JSON
 				echo json_encode($response);

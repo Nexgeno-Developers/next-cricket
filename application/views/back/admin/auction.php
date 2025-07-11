@@ -180,7 +180,7 @@
 										<input type="hidden" name="players_id" id="players_id_bid" value="<?= $row['players_id']; ?>">
 									</div>
 									<div class="col-sm-6">
-										<button type="submit" class="btn btn-purple"> Start </button>
+										<button type="submit" class="btn btn-success start_bidding_btn"> Start Bidding  </button>
 									</div>
 								</form>
 							</div>
