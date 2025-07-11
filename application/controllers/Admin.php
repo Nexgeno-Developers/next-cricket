@@ -948,6 +948,17 @@ class Admin extends CI_Controller
 			}
 		}  elseif ($para1 == 'bid-data') {
 
+			$active_bid = $this->db->where('session_id', $para2)->get('bid_sessions')->row();
+
+			if ($active_bid && $active_bid->status == 'closed') {
+				$response = [
+					'status' => 'closed',
+					'bid_data' => []
+				];
+				echo json_encode($response);
+				exit;
+			}
+
 			$this->db->select('session_id, owner_id, team_id, amount, bid_time');
 			$this->db->from('bids');
 			$this->db->where('session_id', $para2);

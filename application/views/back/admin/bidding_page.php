@@ -745,6 +745,8 @@
 								`;
 							});
 							biddingDiv.innerHTML = rows;
+						} else if (data.status === 'closed') {
+							window.location.href = base__url + 'index.php/admin/bidding';
 						}
 					})
 					.catch(error => {
