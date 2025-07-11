@@ -530,7 +530,7 @@ $(document).ready(function() {
 										</div>
 										<div class="media-body">
 											<h4 class="alert-title"></h4>
-											<p class="alert-message">Cancelled</p>
+											<p class="alert-message">${response.message}</p>
 										</div>
 									</div>
 								</div>
@@ -542,6 +542,10 @@ $(document).ready(function() {
 					$('.alert-danger .close').click(function() {
 						$(this).closest('#floating-top-right').remove();
 					});
+
+					setTimeout(function() {
+						window.location.href = base__url + 'index.php/admin/bidding';
+					}, 3000);
 
 				}
 
