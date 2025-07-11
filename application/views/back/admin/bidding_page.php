@@ -1,4 +1,7 @@
 <style>
+	.aution-table tr td {
+		color: #fff !important;
+	}
 	.error {
 		color: red;
 	}
@@ -6,11 +9,8 @@
 	.soldout-section {
 		color: #fff;
 	}
-	.auction-table th, .auction-table td
-	{
-		color: #fff !important;
-	}
-	.timer_auction {
+
+	.timer_aution {
 		font-size: 100px;
 		color: #fb4e4e;
 		text-align: center;
