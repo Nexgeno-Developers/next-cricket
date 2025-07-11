@@ -6,8 +6,11 @@
 	.soldout-section {
 		color: #fff;
 	}
-
-	.timer_aution {
+	.auction-table th, .auction-table td
+	{
+		color: #fff !important;
+	}
+	.timer_auction {
 		font-size: 100px;
 		color: #fb4e4e;
 		text-align: center;
@@ -184,12 +187,12 @@
 								</div>
 							<?php } else { ?>
 
-								
+								<button type="submit" onclick="win_Check()" class="btn btn-purple"> bid </button>
 
 							<?php } ?>
 						</div>
 
-						<table class="table">
+						<table class="table aution-table">
 							<thead>
 								<tr>
 									<th>Sr No.</th>
