@@ -1,7 +1,4 @@
 <style>
-	.aution-table tr td {
-		color: #fff !important;
-	}
 	.error {
 		color: red;
 	}
@@ -211,12 +208,12 @@
 									$teams_name = $this->db->select('teams_name')->where('teams_id', $data['team_id'])->get('teams')->row_array();
 								?>
 									<tr>
-										<td><?= $i++; ?></td>
-										<td><?= $owner_name['name']; ?></td>
-										<td><?= $teams_name['teams_name']; ?></td>
-										<td><?= $data['amount']; ?></td>
+										<td style="color:white;"><?= $i++; ?></td>
+										<td style="color:white;"><?= $owner_name['name']; ?></td>
+										<td style="color:white;"><?= $teams_name['teams_name']; ?></td>
+										<td style="color:white;"><?= $data['amount']; ?></td>
 										<!-- <td><?= $data['is_winner']; ?></td> -->
-										<td><?= $data['bid_time']; ?></td>
+										<td style="color:white;"><?= $data['bid_time']; ?></td>
 									</tr>
 								<?php } ?>
 							</tbody>
@@ -739,11 +736,11 @@
 							data.bid_data.forEach(bid => {
 								rows += `
 									<tr>
-										<td>${i++}</td>
-										<td>${bid.owner_name}</td>
-										<td>${bid.team_name}</td>
-										<td>${bid.amount}</td>
-										<td>${bid.bid_time}</td>
+										<td style="color:white;">${i++}</td>
+										<td style="color:white;">${bid.owner_name}</td>
+										<td style="color:white;">${bid.team_name}</td>
+										<td style="color:white;">${bid.amount}</td>
+										<td style="color:white;">${bid.bid_time}</td>
 									</tr>
 								`;
 							});
