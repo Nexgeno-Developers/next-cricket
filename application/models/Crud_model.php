@@ -687,8 +687,29 @@ class Crud_model extends CI_Model
 		}
 		return json_encode($player);
 	}
-	
-	
-	
-	
+
+
+	function get_player_count($session_id, $team_id) {
+
+		$league_id = $this->db->get_where('bid_sessions', array('session_id' => $session_id))->row()->league_id;
+
+		// Count current players in soldplayers
+		$current_count = $this->db
+			->where('league_id', $league_id)
+			->where('teams_id', $team_id)
+			->from('soldplayers')
+			->count_all_results();
+
+		// Get acceptable player count from league table
+		$this->db->select('player');
+		$this->db->where('league_id', $league_id); // Adjust if PK column is different
+		$query = $this->db->get('league');
+
+		$row = $query->row();
+		$acceptable_Count = $row ? (int)$row->player : 0;
+
+		// Compare counts
+		return ($current_count <= $acceptable_Count) ? 1 : 0;
+	}
+
 }

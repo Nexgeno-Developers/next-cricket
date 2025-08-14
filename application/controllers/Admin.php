@@ -577,7 +577,7 @@ class Admin extends CI_Controller
 			$data['league_id'] = $this->input->post('league_id');
 			$data['player_id'] = $this->input->post('players_id');
 			$data['start_time'] = date('Y-m-d H:i:s'); // Current date and time
-			$data['end_time'] = date('Y-m-d H:i:s', strtotime('+2 minutes')); // Current date and time + 2 minutes
+			$data['end_time'] = date('Y-m-d H:i:s', strtotime('+3 minutes')); // Current date and time + 3 minutes
 			$data['created_by'] = $this->session->userdata('admin_id');
 
 			if ($this->db->insert('bid_sessions', $data)) {
@@ -772,11 +772,6 @@ class Admin extends CI_Controller
 					'message' => 'Insufficient Points'
 				];
 
-				$this->session->set_flashdata('flash_msg', [
-					'text' => 'Insufficient Points!',
-					'color' => '#f44336' // red
-				]);
-
 				// Return response as JSON
 				echo json_encode($response);
 				exit();
@@ -788,11 +783,6 @@ class Admin extends CI_Controller
 					'status' => 'error',
 					'message' => 'Insufficient Points'
 				];
-
-				$this->session->set_flashdata('flash_msg', [
-					'text' => 'Insufficient Points!',
-					'color' => '#f44336' // red
-				]);
 
 				// Return response as JSON
 				echo json_encode($response);
@@ -810,7 +800,7 @@ class Admin extends CI_Controller
 			if ($player_data['base_price'] > (int)$this->input->post('amount')) {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled'
+					'message' => 'Amount is too low as per player base price'
 				];
 
 				// Return response as JSON
@@ -836,7 +826,7 @@ class Admin extends CI_Controller
 			} else {
 				$response = [
 					'status' => 'error',
-					'message' => 'Cancelled 5'
+					'message' => 'Failed to add the bid!'
 				];
 			}
 		
@@ -893,14 +883,14 @@ class Admin extends CI_Controller
 			// Prepare success response
 			$response = [
 				'status' => 'success',
-				'message' => 'Successfully added the bid!'
+				'message' => 'Bid Time out!'
 				];
 
 			} else {
 			// Prepare error response if insertion failed
 			$response = [
 				'status' => 'error',
-				'message' => 'Cancelled'
+				'message' => 'Player is already sold!'
 				];
 			}
 
@@ -992,6 +982,59 @@ class Admin extends CI_Controller
 			$page_data['bid_sessions'] = $this->db->get('bid_sessions')->result_array();
 			
 			$this->load->view('back/admin/bidding_list', $page_data);
+
+		}  elseif ($para1 == 'bidding-winner') {
+			// Get winning bid
+			$bid = $this->db
+				->where('session_id', $para2)
+				->where('is_winner', 1)
+				->get('bids')
+				->row();
+
+			if (!$bid) {
+				$page_data = [
+					'no_winner'       => 'No winning in this auction'
+				];
+				$this->load->view('back/admin/bidding_winner', $page_data);
+			}
+
+			// Get player & league info
+			$session = $this->db
+				->select('player_id, league_id')
+				->where('session_id', $para2)
+				->get('bid_sessions')
+				->row();
+
+			// Get team info
+			$team = $this->db
+				->select('teams_name, logo')
+				->where('teams_id', $bid->team_id)
+				->get('teams')
+				->row();
+
+			// Get league info
+			$league = $this->db
+				->select('league_name')
+				->where('league_id', $session->league_id)
+				->get('league')
+				->row();
+
+			
+
+			$player = $this->db
+				->select('players_name')
+				->where('players_id', $session->player_id)
+				->get('players')
+				->row();
+
+			$page_data = [
+				'bid'       => $bid,
+				'player'    => $player,
+				'team'      => $team,
+				'league'    => $league
+			];
+
+			$this->load->view('back/admin/bidding_winner', $page_data);
 		
 		}  elseif ($para1 == 'edit') {
 
@@ -1018,7 +1061,8 @@ class Admin extends CI_Controller
 		} 
 		elseif ($para1 == 'do_add') {
 			$data['league_name']      = $this->input->post('league_name');
-			$data['description']     = $this->input->post('description');				
+			$data['description']     = $this->input->post('description');		
+			$data['player']     = $this->input->post('no_of_players');		
 			$this->db->insert('league', $data);
 		} 
 		elseif ($para1 == 'list') {
@@ -1035,6 +1079,7 @@ class Admin extends CI_Controller
 		elseif ($para1 == 'update') {
 			$data['league_name']      = $this->input->post('league_name');
 			$data['description']     = $this->input->post('description');
+			$data['player']     = $this->input->post('no_of_players');	
 			$this->db->where('league_id', $para2);
 			$this->db->update('league', $data);
 			recache();

@@ -111,7 +111,7 @@
 								</div>
 
 								<div class="col-md-12 text-center">
-									<div class="timer timer_aution" id="timer">02:00</div>
+									<div class="timer timer_aution" id="timer">03:00</div>
 								</div>
 								<br>
 								<div class="col-md-12 text-center mt-2">
@@ -158,6 +158,13 @@
 							<?php
 							if ($role_id != 1) { ?>
 
+								<?php
+								
+									$player_count = $this->crud_model->get_player_count($bidding_data['session_id'], $this->session->userdata('team'));
+
+									if($player_count){
+								?>
+
 								<div class="col-md-4">
 									<?php
 									echo form_open(base_url() . 'index.php/admin/bidding/bid/', array(
@@ -182,6 +189,15 @@
 
 									</form>
 								</div>
+
+								<?php } else { ?>
+									<div class="d-flex justify-content-center">
+										<div class="alert alert-warning text-center" style="max-width: 500px;">
+											Your team player limit has been reached for this league.
+										</div>
+									</div>
+								<?php } ?>
+
 							<?php } else { ?>
 								<div class="col-md-4">
 									<div class="flex_boxex">
@@ -448,53 +464,104 @@
 
 
 	$(document).ready(function() {
+		const past_amount = JSON.parse(localStorage.getItem('past_amount')) || [];
+		function addAmount(amount) {
+			past_amount.push(amount);
+			localStorage.setItem('past_amount', JSON.stringify(past_amount));
+		}
 		$('#start_bidding').submit(function(event) {
 			event.preventDefault(); // Prevent the form from submitting normally
 
-			console.log('working hero');
+			let $form = $(this);
+			let $submitBtn = $form.find(':submit');
 
-			$.ajax({
-				url: $(this).attr('action'), // The action URL from the form
-				type: $(this).attr('method'), // The method type from the form
-				data: $(this).serialize(), // Serialize form data
-				dataType: 'json', // Expect a JSON response
-				success: function(response) {
-					// Clear any previous alerts
-					$('#scroll-top').next('#floating-top-right').remove();
+			// Disable the submit button to prevent double-click
+			$submitBtn.prop('disabled', true).text('Please wait...');
+			var amount = $('#amount').val().trim();
+
+			if (amount !== '' && !past_amount.includes(amount)) {
+				$.ajax({
+					url: $(this).attr('action'), // The action URL from the form
+					type: $(this).attr('method'), // The method type from the form
+					data: $(this).serialize(), // Serialize form data
+					dataType: 'json', // Expect a JSON response
+					success: function(response) {
+						// Clear any previous alerts
+						$('#scroll-top').next('#floating-top-right').remove();
 
 
-					// Check if the response status is success or error
-					if (response.status === 'success') {
-						// Success alert
-						var successAlert = `
-						<div id="floating-top-right" class="floating-container">
-							<div class="alert-wrap in animated fadeIn">
-								<div class="alert alert-success" role="alert">
-									<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
-									<div class="media">
-										<div class="media-left">
-											<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-check"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="alert-title"></h4>
-											<p class="alert-message">Successfully Edited!</p>
+						// Check if the response status is success or error
+						if (response.status === 'success') {
+
+							addAmount(amount);
+
+							// Success alert
+							var successAlert = `
+							<div id="floating-top-right" class="floating-container">
+								<div class="alert-wrap in animated fadeIn">
+									<div class="alert alert-success" role="alert">
+										<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+										<div class="media">
+											<div class="media-left">
+												<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-check"></i></span>
+											</div>
+											<div class="media-body">
+												<h4 class="alert-title"></h4>
+												<p class="alert-message">${response.message}</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>`;
-						$('#scroll-top').after(successAlert);
+							</div>`;
+							$('#scroll-top').after(successAlert);
 
-						// Close button click event
-						$('.alert-success .close').click(function() {
-							$(this).closest('#floating-top-right').remove();
-						});
+							$submitBtn.prop('disabled', false).text('Bid');
 
-						setTimeout(function() {
-							location.reload();
-						}, 3000);
+							// Close button click event
+							$('.alert-success .close').click(function() {
+								$(this).closest('#floating-top-right').remove();
+							});
 
-					} else {
+							// setTimeout(function() {
+							// 	location.reload();
+							// }, 3000);
+
+						} else {
+							// Error alert
+							var errorAlert = `
+							<div id="floating-top-right" class="floating-container">
+								<div class="alert-wrap in animated fadeIn">
+									<div class="alert alert-danger" role="alert">
+										<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
+										<div class="media">
+											<div class="media-left">
+												<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+											</div>
+											<div class="media-body">
+												<h4 class="alert-title"></h4>
+												<p class="alert-message">${response.message}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>`;
+							$('#scroll-top').after(errorAlert);
+
+							$submitBtn.prop('disabled', false).text('Bid');
+
+							// Close button click event
+							$('.alert-danger .close').click(function() {
+								$(this).closest('#floating-top-right').remove();
+							});
+
+						}
+
+
+					},
+					error: function(xhr, status, error) {
+						// Clear any previous alerts
+						$('#scroll-top').next('#floating-top-right').remove();
+
 						// Error alert
 						var errorAlert = `
 						<div id="floating-top-right" class="floating-container">
@@ -507,7 +574,7 @@
 										</div>
 										<div class="media-body">
 											<h4 class="alert-title"></h4>
-											<p class="alert-message">Cancelled</p>
+											<p class="alert-message">${response.message}</p>
 										</div>
 									</div>
 								</div>
@@ -515,45 +582,48 @@
 						</div>`;
 						$('#scroll-top').after(errorAlert);
 
+						$submitBtn.prop('disabled', false).text('Bid');
+
 						// Close button click event
 						$('.alert-danger .close').click(function() {
 							$(this).closest('#floating-top-right').remove();
 						});
-
 					}
+				});
+			
+			} else {
 
+				// Re-enable the button
+				$submitBtn.prop('disabled', false).text('Bid');
 
-				},
-				error: function(xhr, status, error) {
-					// Clear any previous alerts
-					$('#scroll-top').next('#floating-top-right').remove();
-
-					// Error alert
-					var errorAlert = `
+				var errorAlert = `
 					<div id="floating-top-right" class="floating-container">
 						<div class="alert-wrap in animated fadeIn">
 							<div class="alert alert-danger" role="alert">
 								<button class="close" type="button"><i class="fa fa-times-circle"></i></button>
 								<div class="media">
 									<div class="media-left">
-										<span class="icon-wrap icon-wrap-xs icon-circle alert-icon"><i class="fa fa-minus"></i></span>
+										<span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
+											<i class="fa fa-minus"></i>
+										</span>
 									</div>
 									<div class="media-body">
 										<h4 class="alert-title"></h4>
-										<p class="alert-message">Cancelled</p>
+										<p class="alert-message">It's an old bid (${amount}), please bid a new amount.</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>`;
-					$('#scroll-top').after(errorAlert);
 
-					// Close button click event
-					$('.alert-danger .close').click(function() {
-						$(this).closest('#floating-top-right').remove();
-					});
-				}
-			});
+				$('#scroll-top').after(errorAlert);
+
+				// Close button event
+				$('#floating-top-right .close').click(function() {
+					$(this).closest('#floating-top-right').remove();
+				});
+
+			}
 		});
 	});
 
@@ -561,7 +631,7 @@
 	function win_Check() {
 		var base__url = '<?php echo base_url(); ?>';
 		var bid_id = '<?php echo $bidding_data['session_id'] ?>';
-
+		localStorage.removeItem('past_amount');
 		$.ajax({
 			url: base__url + 'index.php/admin/bidding/bid-win/' + bid_id, // The action URL from the form
 			type: $(this).attr('method'), // The method type from the form
@@ -599,8 +669,11 @@
 						$(this).closest('#floating-top-right').remove();
 					});
 
+					// setTimeout(function() {
+					// 	window.location.href = base__url + 'index.php/admin/bidding';
+					// }, 3000);
 					setTimeout(function() {
-						window.location.href = base__url + 'index.php/admin/bidding';
+						window.location.href = base__url + 'index.php/admin/bidding/bidding-winner/' + bid_id;
 					}, 3000);
 
 				} else {
@@ -629,8 +702,12 @@
 						$(this).closest('#floating-top-right').remove();
 					});
 
+					// setTimeout(function() {
+					// 	window.location.href = base__url + 'index.php/admin/bidding';
+					// }, 3000);
+
 					setTimeout(function() {
-						window.location.href = base__url + 'index.php/admin/bidding';
+						window.location.href = base__url + 'index.php/admin/bidding/bidding-winner/' + bid_id;
 					}, 3000);
 
 				}
@@ -685,6 +762,7 @@
 	function startTimer(startTime, durationInMinutes) {
 		const startTimeMs = new Date(startTime).getTime();
 		const durationMs = durationInMinutes * 60 * 1000; // Convert minutes to milliseconds
+		console.log("durationMs:", durationMs);
 		const endTimeMs = startTimeMs + durationMs;
 
 		function updateTimer() {
@@ -692,6 +770,7 @@
 			const remainingMs = endTimeMs - now;
 
 			if (remainingMs <= 0) {
+				console.log("Time is up!");
 				document.getElementById("timer").innerHTML = "00:00";
 				clearInterval(timerInterval);
 				// alert("Time is up!");  
@@ -717,7 +796,7 @@
 
 	// Define the start time and duration
 	const startTime = "<?php echo $bidding_data['start_time'] ?>"; // Replace with your start time
-	const durationInMinutes = 2; // 3-minute countdown
+	const durationInMinutes = 3; // 3-minute countdown
 
 	// Start the timer
 	startTimer(startTime, durationInMinutes);
@@ -749,7 +828,7 @@
 							});
 							biddingDiv.innerHTML = rows;
 						} else if (data.status === 'closed') {
-							window.location.href = base__url + 'index.php/admin/bidding';
+							window.location.href = base__url + 'index.php/admin/bidding/bidding-winner/' + bid_id;
 						}
 					})
 					.catch(error => {
