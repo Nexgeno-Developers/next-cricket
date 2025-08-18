@@ -82,7 +82,7 @@
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
         <!-- Clapping Sound -->
-        <audio id="clapSound" src="https://www.soundjay.com/human/applause-8.mp3" preload="auto"></audio>
+        <audio id="clapSound" src="<?= base_url('/uploads/preview.mp3') ?>" preload="auto"></audio>
         <audio id="tryAgainSound" src="<?= base_url('/uploads/tf_nemesis.mp3') ?>" preload="auto"></audio>
 
         <script>
@@ -126,12 +126,19 @@
                     }
                 })();
             }
-            <?php if (empty($no_winner)) { ?>
-                launchConfetti();
-                clapSound.play();
-            <?php } else { ?>
-                playTryAgain();
-            <?php } ?>
+            document.addEventListener("DOMContentLoaded", () => {
+                if (<?= json_encode(empty($no_winner)) ?>) {
+                    // Wait until the user interacts before playing sound
+                    document.addEventListener("click", () => {
+                        launchConfetti();
+                        document.getElementById("clapSound").play();
+                    }, { once: true });
+                } else {
+                    document.addEventListener("click", () => {
+                        playTryAgain();
+                    }, { once: true });
+                }
+            });
 
             // Countdown & Redirect
             let timeLeft = 30;

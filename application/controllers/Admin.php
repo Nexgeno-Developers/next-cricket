@@ -750,6 +750,26 @@ class Admin extends CI_Controller
 			}
 			
 		} elseif ($para1 == "bid") {
+
+			$old_bids = $this->db->where('session_id', $this->input->post('session_id'))
+						->where('team_id', $this->input->post('team_id'))
+						->select('amount')
+						->get('bids')
+						->result_array();
+
+			foreach ($old_bids as $old_bid) {
+				if ((float)$old_bid['amount'] == (float)$this->input->post('amount')) {
+					$response = [
+						'status' => 'error',
+						'message' => 'This bid amount already exists for the same session.'
+					];
+
+					// Return response as JSON
+					echo json_encode($response);
+					exit();
+				}
+			}
+
 			$team_point = $this->db->select('virtual_point')
 						->where('teams_id', $this->input->post('team_id'))
 						->get('teams')
@@ -764,8 +784,6 @@ class Admin extends CI_Controller
 			$remaining_point = $team_point['virtual_point'] - $purchased_point;
 			// Check if the remaining points are greater than or equal to the amount specified in the post request
 			if ($remaining_point < (int)$this->input->post('amount')) {
-
-
 
 				$response = [
 					'status' => 'error',
