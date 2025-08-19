@@ -439,6 +439,7 @@ class Admin extends CI_Controller
 			$this->db->join('soldplayers', 'teams.teams_id=soldplayers.teams_id');
 			$this->db->join('players', 'players.players_id=soldplayers.players_id');
 			$this->db->where('soldplayers.teams_id', $para2);
+			$this->db->where('soldplayers.league_id = teams.league');
 			$page_data['team_id'] = $para2;
 			$page_data['all_player'] = $this->db->get()->result_array();
 			$this->load->view('back/admin/team_players_list', $page_data);

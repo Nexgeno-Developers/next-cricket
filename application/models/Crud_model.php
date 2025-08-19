@@ -709,7 +709,7 @@ class Crud_model extends CI_Model
 		$acceptable_Count = $row ? (int)$row->player : 0;
 
 		// Compare counts
-		return ($current_count <= $acceptable_Count) ? 1 : 0;
+		return ($current_count < $acceptable_Count) ? 1 : 0;
 	}
 
 }
