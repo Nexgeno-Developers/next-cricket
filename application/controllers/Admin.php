@@ -33,7 +33,7 @@ class Admin extends CI_Controller
 			$page_data['all_players'] = $this->db->count_all('players');
 			$page_data['all_sold_players'] = $this->db->count_all('soldplayers');
 			$page_data['all_unsold_players'] = $this->db->count_all('unsold');
-			$page_data['cur_league'] = $this->db->select_max('league_id')->get('league')->row_array();
+			$page_data['cur_league'] = $this->db->select_max('league_id')->where('status',1)->get('league')->row_array();
 
 			}else{
 				$page_data['teams'] = $this->db->from('teams')->where('owner_id', $this->session->userdata('admin_id'))->get()->row();
