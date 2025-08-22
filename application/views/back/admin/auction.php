@@ -9,12 +9,12 @@
 <div id="content-container" class="container">
 	<div id="page-title">
 		<div class="col-md-12">
-			<h2 class="page-header text-overflow" ><label>Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league',$cur_lid,'league_name'); ?> </h2>
+			<h2 class="page-header text-overflow whitewrap-text" ><label class="marginzero">Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league',$cur_lid,'league_name'); ?> </h2>
 		</div>
 		<div class="col-md-6">
-			<div class="form-group" style="font-size: 16px;"><br>
-				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff">Select Category</label>
-				<div class="col-sm-6"style=" z-index: 999999999;">
+			<div class="form-group marginzero" style="font-size: 16px;">
+				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff;">Select Category</label>
+				<div class="col-sm-6 control-labeldiv"style=" z-index: 999999999;">
 					<?php echo $this->crud_model->select_html('category', 'category_id', 'category_name', 'edit', 'form-control cat required', $this->session->userdata('cat_id'), NULL, NULL, 'category_wise_player'); ?>
 				</div>
 			</div>
@@ -22,16 +22,16 @@
 
 		
 		<div class="col-md-6">
-			<div class="form-group" style="font-size: 16px;"><br>
-				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff">Player Type</label>
-				<div class="col-sm-6"style=" z-index: 999999999;">
-				<select class="form-control required" id="profile_type" name="profile_type">
-					<option value="All">All</option>
-					<option value="Men" <?php if ($this->session->userdata('profile_type') == 'Men') echo 'selected'; ?>>Men</option>
-					<option value="Women" <?php if ($this->session->userdata('profile_type') == 'Women') echo 'selected'; ?>>Women</option>
-					<option value="Senior Citizen" <?php if ($this->session->userdata('profile_type') == 'Senior Citizen') echo 'selected'; ?>>Senior Citizen</option>
-					<option value="Kids" <?php if ($this->session->userdata('profile_type') == 'Kids') echo 'selected'; ?>>Kids</option>
-				</select>
+			<div class="form-group" style="font-size: 16px;">
+				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff;">Player Type</label>
+				<div class="col-sm-6 "style=" z-index: 999999999;">
+					<select class="form-control required" id="profile_type" name="profile_type">
+						<option value="All">All</option>
+						<option value="Men" <?php if ($this->session->userdata('profile_type') == 'Men') echo 'selected'; ?>>Men</option>
+						<option value="Women" <?php if ($this->session->userdata('profile_type') == 'Women') echo 'selected'; ?>>Women</option>
+						<option value="Senior Citizen" <?php if ($this->session->userdata('profile_type') == 'Senior Citizen') echo 'selected'; ?>>Senior Citizen</option>
+						<option value="Kids" <?php if ($this->session->userdata('profile_type') == 'Kids') echo 'selected'; ?>>Kids</option>
+					</select>
 				</div>
 			</div>
 		</div>
@@ -59,7 +59,7 @@
 					<?php if(!empty($row['players_id'])) : ?>
 					<div class="item ">
 						<div class="col-md-12">
-							<div class="col-md-4">
+							<div class="col-md-4 playerimgdiv">
 								<span class="playerimg">
 								<?php if($teams_id){ ?>
 									<img  src="<?php echo base_url(); ?>uploads/sold-ribbon.png" id='soldout' /> 
@@ -90,15 +90,15 @@
 								</div>
 								
 							</div>
-							<h3><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if($row['nickname']) echo '('.$row['nickname'].')'; ?></label></h3>
-							<div class="col-md-4">
+							<h3 class="margintop15px"><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if($row['nickname']) echo '('.$row['nickname'].')'; ?></label></h3>
+							<div class="col-md-4 marginbottom15px padingleftzero paddingrightzero">
 								<div class="auc-desc" style="background: #e95c0c;">
 									<p><label>Unique Id : </label> <span class="uniq_id"><?= $row['uniq_id']; ?></span> </p>
 									<p><label>Category : </label> <span class="player_cat"><?= $this->crud_model->get_type_name_by_id('category',$row['category_id'],'category_name'); ?></span></p>
 									<p><label>Player Type : </label><span class="player_type"><?= $row['type']; ?></span> </p>
 								</div>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4 marginbottom15px padingleftzero paddingrightzero">
 								<div class="auc-desc" style="background: #f5b317;">
 									<p><label>Style : </label> <span class="player_style"><?= $row['style']; ?></span></p>
 									<p><label>Age: </label> <span class="player_age"><?= date_diff(date_create($row['dob']), date_create(date("Y-m-d")))->format('%y'); ?></span></p>
@@ -135,7 +135,7 @@
 										'enctype' => 'multipart/form-data'
 									));
 									?>
-									<div class="form-group">
+									<div class="form-group marginbottomzero">
 										<input type="hidden" name="category_id" id="category_id" value="<?= $this->session->userdata('cat_id'); ?>">
 										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
 										<input type="hidden" name="players_id" id="players_id" value="<?= $row['players_id']; ?>">
@@ -153,10 +153,10 @@
 									<div class="form-group">
 										<div class="col-sm-5"></div>
 										<div class="col-sm-12">
-										<div class="col-sm-6">
+										<div class="col-xs-6 col-sm-6">
 											<input type="button" name="soldplayer" id="soldplayer"	value="Click To Sold" class="btn btn-purple">
 										</div>
-										<div class="col-sm-6">
+										<div class="col-xs-6 col-sm-6">
 											<input type="button" name="unsold" id="unsold"	value="Unsold" class="btn btn-purple">
 										</div>
 										</div>
@@ -179,7 +179,7 @@
 										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
 										<input type="hidden" name="players_id" id="players_id_bid" value="<?= $row['players_id']; ?>">
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-12 col-xs-12 col-12 startbidbtn">
 										<button type="submit" class="btn btn-success start_bidding_btn"> Start Bidding  </button>
 									</div>
 								</form>

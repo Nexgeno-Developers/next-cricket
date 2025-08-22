@@ -15,7 +15,7 @@
 			<div class="row" <?php if ($this->crud_model->get_type_name_by_id('general_settings', '68', 'value') == 'ok') {
 								} else { ?>style="display:none;" <?php } ?>>
 
-				<div class="col-md-6 col-lg-6">
+				<div class="col-md-12 col-lg-12">
 					<div class="panel panel-bordered panel-black">
 						<div class="panel-heading">
 							<h3 class="panel-title">Current League</h3>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-6 col-lg-6">
+				<div class="col-md-3 col-lg-3">
 					<a href="<?php echo base_url(); ?>index.php/admin/teams/all_team_players">
 					<div class="panel panel-bordered panel-purple">
 						<div class="panel-heading">
@@ -49,7 +49,7 @@
 					</a>
 				</div>
 
-				<div class="col-md-4 col-lg-4">
+				<div class="col-md-3 col-lg-3">
 					<a href="<?php echo base_url(); ?>index.php/admin/players">
 					<div class="panel panel-bordered panel-success">
 						<div class="panel-heading">
@@ -67,7 +67,7 @@
 					</a>
 				</div>
 
-				<div class="col-md-4 col-lg-4">
+				<div class="col-md-3 col-lg-3">
 					<div class="panel panel-bordered panel-warning">
 						<div class="panel-heading">
 							<h3 class="panel-title">Total No of Sold Players</h3>
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-4 col-lg-4">
+				<div class="col-md-3 col-lg-3">
 					<div class="panel panel-bordered panel-danger">
 						<div class="panel-heading">
 							<h3 class="panel-title">Total No of Unsold Players</h3>
