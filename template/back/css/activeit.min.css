@@ -8131,8 +8131,8 @@ p.MsoNormal {
 ul.nav.navbar-nav li a {
     position: relative;
     display: block;
-    padding: 10px 9px;
-    font-size: 14px !important;
+    padding: 10px 6px;
+    font-size: 13px !important;
 }
 
 .fixed-table-pagination .page-list {
@@ -8150,6 +8150,10 @@ ul.nav.navbar-nav li a {
 
 .marginzero{
 	margin-bottom: 0px;
+}
+
+.modal-backdrop{
+	height: 200% !important;
 }
 
 
@@ -8177,6 +8181,10 @@ ul.nav.navbar-nav li a {
 	.startbidbtn{
 		display: flex;
 		justify-content: center;
+	}
+
+	.startbidbtn{
+		margin-bottom: 20px;
 	}
 	
 	.padingleftzero {
@@ -8208,15 +8216,16 @@ ul.nav.navbar-nav li a {
 	}
 	
 	body .brand-icon {
-	width: 160px !important;
+	width: 120px !important;
 	height: auto;
 	float: left;
-	margin-left: 0 !important;
-	margin-top: 7px;
+	margin-left: 4 !important;
+	margin-top: 12px;
 	}
 	
-	.page-header {
-		font-size: 22px !important;
+	.page-header,
+	.control-labelfwsize {
+		font-size: 18px !important;
 	}
 
 	.whitewrap-text{
@@ -8224,7 +8233,8 @@ ul.nav.navbar-nav li a {
 	}
 	#gauge3-txt{
 		white-space: pre-wrap;
-    	font-size: 22px !important;
+    	font-size: 18px !important;
+		display: flex;
 	}
 	#gauge1-txt,
 	#gauge2-txt{
@@ -8233,7 +8243,7 @@ ul.nav.navbar-nav li a {
 
 	h4.sponsor_heading {
 	color: #fff;
-	font-size: 22px;
+	font-size: 18px;
 	padding-bottom: 10px;
 	padding-top: 10px;
 	text-align: center;
@@ -8264,5 +8274,20 @@ ul.nav.navbar-nav li a {
 
 	.panel-body {
 		padding: 5px 5px;
+	}
+	.sponsord_box p{
+		font-size: 14px !important;
+	}
+
+	.player_name_auction{
+		font-size: 20px !important;
+	}
+
+	.collapse.navbar-collapse{
+		margin-left: 0px !important;
+	}
+
+	.navbar-nav{
+		float: left !important;
 	}
 }

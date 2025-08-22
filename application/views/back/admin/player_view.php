@@ -17,7 +17,7 @@
 								<?php } else { ?>
 										src="<?php echo base_url(); ?>uploads/players_image/default.jpg"
 								<?php } ?>
-								class="img-md img-border img-circle" alt="Profile Picture" style="width: 500px;height: 500px; !important">
+								class="img-md img-border img-circle" alt="Profile Picture" style="width: 100%; height:100% !important">
 				</div>
 			</div>
 			<div class="row">

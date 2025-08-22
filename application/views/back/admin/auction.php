@@ -13,8 +13,8 @@
 		</div>
 		<div class="col-md-6">
 			<div class="form-group marginzero" style="font-size: 16px;">
-				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff;">Select Category</label>
-				<div class="col-sm-6 control-labeldiv"style=" z-index: 999999999;">
+				<label class="col-sm-4 control-label control-labelfwsize paddingrightzero padingleftzero" for="demo-hor-1" style="font-size: 20px; color:#fff;">Select Category</label>
+				<div class="col-sm-6 paddingrightzero padingleftzero"style=" z-index: 999999999;">
 					<?php echo $this->crud_model->select_html('category', 'category_id', 'category_name', 'edit', 'form-control cat required', $this->session->userdata('cat_id'), NULL, NULL, 'category_wise_player'); ?>
 				</div>
 			</div>
@@ -23,8 +23,8 @@
 		
 		<div class="col-md-6">
 			<div class="form-group" style="font-size: 16px;">
-				<label class="col-sm-4 control-label" for="demo-hor-1" style="font-size: 20px; color:#fff;">Player Type</label>
-				<div class="col-sm-6 "style=" z-index: 999999999;">
+				<label class="col-sm-4 control-label control-labelfwsize paddingrightzero padingleftzero" for="demo-hor-1" style="font-size: 20px; color:#fff;">Player Type</label>
+				<div class="col-sm-6 paddingrightzero padingleftzero"style=" z-index: 999999999;">
 					<select class="form-control required" id="profile_type" name="profile_type">
 						<option value="All">All</option>
 						<option value="Men" <?php if ($this->session->userdata('profile_type') == 'Men') echo 'selected'; ?>>Men</option>
@@ -90,7 +90,7 @@
 								</div>
 								
 							</div>
-							<h3 class="margintop15px"><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if($row['nickname']) echo '('.$row['nickname'].')'; ?></label></h3>
+							<h3 class="margintop15px player_name_auction"><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if($row['nickname']) echo '('.$row['nickname'].')'; ?></label></h3>
 							<div class="col-md-4 marginbottom15px padingleftzero paddingrightzero">
 								<div class="auc-desc" style="background: #e95c0c;">
 									<p><label>Unique Id : </label> <span class="uniq_id"><?= $row['uniq_id']; ?></span> </p>
@@ -139,13 +139,13 @@
 										<input type="hidden" name="category_id" id="category_id" value="<?= $this->session->userdata('cat_id'); ?>">
 										<input type="hidden" name="league_id" id="league_id" value="<?= $this->session->userdata('league_id'); ?>">
 										<input type="hidden" name="players_id" id="players_id" value="<?= $row['players_id']; ?>">
-										<label class="col-sm-5 control-label" for="demo-hor-1">Sold Price</label>
+										<label class="col-sm-5 control-label control-labelfwsize" for="demo-hor-1">Sold Price</label>
 										<div class="col-sm-7">
 											<input type="text" name="sold_price" id="demo-hor-1"	placeholder="Sold Price" class="form-control required" required>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-5 control-label" for="demo-hor-1">Sold On Team</label>
+										<label class="col-sm-5 control-label control-labelfwsize" for="demo-hor-1">Sold On Team</label>
 										<div class="col-sm-7">
 											<?php echo $this->crud_model->select_html('teams','teams_id','teams_name','add','form-control required','',NULL,NULL,NULL); ?>
 										</div>
