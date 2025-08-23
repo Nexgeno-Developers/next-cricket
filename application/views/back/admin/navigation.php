@@ -72,7 +72,7 @@ a.dropdown-toggle i {
 			</center>
 		</div>
 		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav navbar-margin-position">
 			<?php if($this->crud_model->get_type_name_by_id('admin',$this->session->userdata('admin_id'),'role')==1){ ?>
 				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?>>
 					<a href="<?php echo base_url(); ?>index.php/admin/">

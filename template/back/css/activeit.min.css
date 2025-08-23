@@ -8145,6 +8145,34 @@ ul.nav.navbar-nav li a {
 }
 
 
+@media (min-width: 768px) and (max-width: 768px) {
+	.navbar-margin-position{
+	left: 129px;
+	position: relative;
+	width: 85%;
+	}
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+	.navbar-margin-position{
+		left: 100px;
+        position: relative;
+        width: 81%;
+	}
+	.collapse.navbar-collapse {
+		margin-left: 0px;
+	}
+}
+
+@media (min-width: 992px) {
+	.navbar-margin-position{
+		left: 100px;
+        position: relative;
+        width: 81%;
+	}
+}
+
+
 
 /* =================================21 aug 2025 */
 
@@ -8290,4 +8318,24 @@ ul.nav.navbar-nav li a {
 	.navbar-nav{
 		float: left !important;
 	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.dflex769 {
+		display: flex;
+	}
+
+	.marginbottom769{
+		margin-bottom: 10px;
+	}
+}
+
+.table-responsive-bidding{
+	overflow-x: initial;
+}
+
+.note-editable {
+    overflow-y: scroll; /* Always show vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    height: 300px;
 }

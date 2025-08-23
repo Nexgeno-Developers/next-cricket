@@ -12,7 +12,7 @@
 			<h2 class="page-header text-overflow whitewrap-text" ><label class="marginzero">Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league',$cur_lid,'league_name'); ?> </h2>
 		</div>
 		<div class="col-md-6">
-			<div class="form-group marginzero" style="font-size: 16px;">
+			<div class="form-group marginzero dflex769 marginbottom769" style="font-size: 16px;">
 				<label class="col-sm-4 control-label control-labelfwsize paddingrightzero padingleftzero" for="demo-hor-1" style="font-size: 20px; color:#fff;">Select Category</label>
 				<div class="col-sm-6 paddingrightzero padingleftzero"style=" z-index: 999999999;">
 					<?php echo $this->crud_model->select_html('category', 'category_id', 'category_name', 'edit', 'form-control cat required', $this->session->userdata('cat_id'), NULL, NULL, 'category_wise_player'); ?>
@@ -22,7 +22,7 @@
 
 		
 		<div class="col-md-6">
-			<div class="form-group" style="font-size: 16px;">
+			<div class="form-group dflex769" style="font-size: 16px;">
 				<label class="col-sm-4 control-label control-labelfwsize paddingrightzero padingleftzero" for="demo-hor-1" style="font-size: 20px; color:#fff;">Player Type</label>
 				<div class="col-sm-6 paddingrightzero padingleftzero"style=" z-index: 999999999;">
 					<select class="form-control required" id="profile_type" name="profile_type">

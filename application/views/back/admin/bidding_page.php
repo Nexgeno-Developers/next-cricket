@@ -211,7 +211,7 @@
 							<?php } ?>
 						</div>
 
-						<div class="table-responsive-bidding">
+						<div class="table-responsive table-responsive-bidding">
 							<table class="table aution-table">
 								<thead>
 									<tr>
