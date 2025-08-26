@@ -172,7 +172,7 @@
 		<div class="row box_center">
 
 			<?php foreach ($sponsors as $row) { ?>
-				<div class="col-md-2 col-sm-6 col-xs-6 text-center">
+				<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6 text-center">
 					<div class="sponsord_box">
 						<a href="<?php echo htmlspecialchars($row->website_url); ?>" target="_blank" rel="noopener noreferrer">
 							<?php if (!empty($row->logo) && file_exists('uploads/sponsors_image/' . $row->logo)) { ?>

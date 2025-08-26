@@ -8339,3 +8339,9 @@ ul.nav.navbar-nav li a {
     overflow-x: hidden; /* Hide horizontal scrollbar */
     height: 300px;
 }
+
+#footer p,
+#footer p a{
+	color: white !important;
+	text-decoration: none !important;
+}

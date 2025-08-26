@@ -1,4 +1,5 @@
 <footer id="footer">
+    <p>Copyright © Nexcric. All right reserved. Design By <a href="https://nexgeno.in/" target="_blank">Nexgeno</a></p>
     <div class="show-fixed pull-right">
         <ul class="footer-list list-inline">
             <li>

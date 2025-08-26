@@ -1002,60 +1002,57 @@ class Admin extends CI_Controller
 			
 			$this->load->view('back/admin/bidding_list', $page_data);
 
-		}  elseif ($para1 == 'bidding-winner') {
-			// Get winning bid
-			$bid = $this->db
-				->where('session_id', $para2)
-				->where('is_winner', 1)
-				->get('bids')
-				->row();
+		}elseif ($para1 == 'bidding-winner') {
+    // Get winning bid
+    $bid = $this->db
+        ->where('session_id', $para2)
+        ->where('is_winner', 1)
+        ->get('bids')
+        ->row();
 
-			if (!$bid) {
-				$page_data = [
-					'no_winner'       => 'No winning in this auction'
-				];
-				$this->load->view('back/admin/bidding_winner', $page_data);
-			}
+    if (!$bid) {
+        $page_data = [
+            'no_winner' => 'No winning in this auction'
+        ];
+        $this->load->view('back/admin/bidding_winner', $page_data);
+        return; // ✅ stop execution here
+    }
 
-			// Get player & league info
-			$session = $this->db
-				->select('player_id, league_id')
-				->where('session_id', $para2)
-				->get('bid_sessions')
-				->row();
+    // Get player & league info
+    $session = $this->db
+        ->select('player_id, league_id')
+        ->where('session_id', $para2)
+        ->get('bid_sessions')
+        ->row();
 
-			// Get team info
-			$team = $this->db
-				->select('teams_name, logo')
-				->where('teams_id', $bid->team_id)
-				->get('teams')
-				->row();
+    $team = $this->db
+        ->select('teams_name, logo')
+        ->where('teams_id', $bid->team_id)
+        ->get('teams')
+        ->row();
 
-			// Get league info
-			$league = $this->db
-				->select('league_name')
-				->where('league_id', $session->league_id)
-				->get('league')
-				->row();
+    $league = $this->db
+        ->select('league_name')
+        ->where('league_id', $session->league_id)
+        ->get('league')
+        ->row();
 
-			
+    $player = $this->db
+        ->select('players_name')
+        ->where('players_id', $session->player_id)
+        ->get('players')
+        ->row();
 
-			$player = $this->db
-				->select('players_name')
-				->where('players_id', $session->player_id)
-				->get('players')
-				->row();
+    $page_data = [
+        'bid'    => $bid,
+        'player' => $player,
+        'team'   => $team,
+        'league' => $league
+    ];
 
-			$page_data = [
-				'bid'       => $bid,
-				'player'    => $player,
-				'team'      => $team,
-				'league'    => $league
-			];
-
-			$this->load->view('back/admin/bidding_winner', $page_data);
-		
-		}  elseif ($para1 == 'edit') {
+    $this->load->view('back/admin/bidding_winner', $page_data);
+}
+  elseif ($para1 == 'edit') {
 
 			$this->db->order_by('is_winner', 'desc');
 			$page_data['bidding'] = $this->db->get_where('bids', array('session_id' => $para2))->result_array();
