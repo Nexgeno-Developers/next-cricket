@@ -64,8 +64,8 @@ a.dropdown-toggle i {
 			<?php $title = $this->crud_model->get_type_name_by_id('general_settings','1','value'); ?>
 			<center>
 			<a href="<?php echo base_url(); ?>" class="navbar-brand" style="padding-left: 5px;">
-				<?php if(file_exists('uploads/ucb-logo34.png')): ?>
-				<img src="<?php echo base_url(); ?>uploads/ucb-logo34.png" alt="<?= $title; ?>" class="brand-icon" >
+				<?php if(file_exists('uploads/ucb-logo3.png')): ?>
+				<img src="<?php echo base_url(); ?>uploads/ucb-logo3.png" alt="<?= $title; ?>" class="brand-icon" >
 				<?php endif; ?>
 				<!-- <div class="brand-title"><span class="brand-text" ><?= $title; ?></span></div> -->
 			</a>
