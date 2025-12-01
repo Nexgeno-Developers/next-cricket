@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php echo 'SOL PRIMER LEAGUES';?></title>
+	<title><?php echo 'Friends Unity Cup 2025';?></title>
 
 	<!--STYLESHEET-->
 	<!--=================================================-->
