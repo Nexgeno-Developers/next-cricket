@@ -64,15 +64,15 @@ a.dropdown-toggle i {
 			<?php $title = $this->crud_model->get_type_name_by_id('general_settings','1','value'); ?>
 			<center>
 			<a href="<?php echo base_url(); ?>" class="navbar-brand" style="padding-left: 5px;">
-				<?php if(file_exists('uploads/ucb-logo3.png')): ?>
-				<img src="<?php echo base_url(); ?>uploads/ucb-logo3.png" alt="<?= $title; ?>" class="brand-icon" >
+				<?php if(file_exists('uploads/ucb-logo4.png')): ?>
+				<img src="<?php echo base_url(); ?>uploads/ucb-logo4.png" alt="<?= $title; ?>" class="brand-icon" >
 				<?php endif; ?>
 				<!-- <div class="brand-title"><span class="brand-text" ><?= $title; ?></span></div> -->
 			</a>
 			</center>
 		</div>
 		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav navbar-margin-position">
 			<?php if($this->crud_model->get_type_name_by_id('admin',$this->session->userdata('admin_id'),'role')==1){ ?>
 				<li <?php if($page_name=="dashboard"){?> class="active-link" <?php } ?>>
 					<a href="<?php echo base_url(); ?>index.php/admin/">

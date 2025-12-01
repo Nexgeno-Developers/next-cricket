@@ -90,7 +90,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="demo-hor-1">Last Played League</label>
 			<div class="col-sm-6">
-				<input type="text" name="last_played_league" id="last_played_league" class="form-control required" placeholder="Last Played League">
+				<input type="text" name="last_played_league" id="last_played_league" class="form-control" placeholder="Last Played League">
 			</div>
 		</div>
 		<div class="form-group">

@@ -12,14 +12,15 @@
 		color: #fb4e4e;
 		text-align: center;
 		position: relative;
-		margin-left: 33%;
-		margin-top: -150px;
+		/* margin-left: 33%; */
+		/* margin-top: -150px; */
 	}
 
 	.flex_boxex {
 		display: flex;
 		gap: 27px;
 		margin-bottom: 30px;
+		justify-content: center;
 	}
 
 	.flex_boxex input#amount {
@@ -40,7 +41,7 @@
 <div id="content-container" class="container">
 	<div id="page-title">
 		<div class="col-md-6">
-			<h2 class="page-header text-overflow"><label>Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league', $cur_lid, 'league_name'); ?> </h2>
+			<h2 class="page-header text-overflow whitewrap-text" style="margin-bottom: 10px;"><label class="marginzero">Auction League :</label> <?= $this->crud_model->get_type_name_by_id('league', $cur_lid, 'league_name'); ?> </h2>
 		</div>
 		<?php /*
 		<div class="col-md-6">
@@ -65,7 +66,7 @@
 					<?php if (!empty($row['players_id'])) : ?>
 						<div class="item ">
 							<div class="col-md-12">
-								<div class="col-md-4">
+								<div class="col-md-4 playerimgdiv">
 									<span class="playerimg">
 										<?php if ($teams_id) { ?>
 											<img src="<?php echo base_url(); ?>uploads/sold-ribbon.png" id='soldout' />
@@ -96,15 +97,15 @@
 									</div>
 
 								</div>
-								<h3><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if ($row['nickname']) echo '(' . $row['nickname'] . ')'; ?></label></h3>
-								<div class="col-md-4">
+								<h3 class="margintop15px"><label class="player_name" style="word-wrap: break-word;"><?= $row['players_name']; ?>&nbsp;<?php if ($row['nickname']) echo '(' . $row['nickname'] . ')'; ?></label></h3>
+								<div class="col-md-4  marginbottom15px padingleftzero paddingrightzero">
 									<div class="auc-desc" style="background: #e95c0c;">
 										<p><label>Unique Id : </label> <span class="uniq_id"><?= $row['uniq_id']; ?></span> </p>
 										<p><label>Category : </label> <span class="player_cat"><?= $this->crud_model->get_type_name_by_id('category', $row['category_id'], 'category_name'); ?></span></p>
 										<p><label>Player Type : </label><span class="player_type"><?= $row['type']; ?></span> </p>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-4  marginbottom15px padingleftzero paddingrightzero marginbottomzero">
 									<div class="auc-desc" style="background: #f5b317;">
 										<p><label>Style : </label> <span class="player_style"><?= $row['style']; ?></span></p>
 										<p><label>Age: </label> <span class="player_age"><?= date_diff(date_create($row['dob']), date_create(date("Y-m-d")))->format('%y'); ?></span></p>
@@ -112,7 +113,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-12 text-center">
+								<div class="col-md-8 text-center">
 									<div class="timer timer_aution" id="timer">03:00</div>
 								</div>
 								<br>
@@ -210,35 +211,37 @@
 							<?php } ?>
 						</div>
 
-						<table class="table aution-table">
-							<thead>
-								<tr>
-									<th>Sr No.</th>
-									<th>Owner ID</th>
-									<th>Team ID</th>
-									<th>Amount</th>
-									<!-- <th>Is Winner</th> -->
-									<th>Bid Time</th>
-								</tr>
-							</thead>
-							<tbody id="bid_data">
-								<?php
-								$i = 1;
-								foreach ($bid_data as $data) {
-									$owner_name = $this->db->select('name')->where('admin_id', $data['owner_id'])->get('admin')->row_array();
-									$teams_name = $this->db->select('teams_name')->where('teams_id', $data['team_id'])->get('teams')->row_array();
-								?>
+						<div class="table-responsive table-responsive-bidding">
+							<table class="table aution-table">
+								<thead>
 									<tr>
-										<td style="color:white;"><?= $i++; ?></td>
-										<td style="color:white;"><?= $owner_name['name']; ?></td>
-										<td style="color:white;"><?= $teams_name['teams_name']; ?></td>
-										<td style="color:white;"><?= $data['amount']; ?></td>
-										<!-- <td><?= $data['is_winner']; ?></td> -->
-										<td style="color:white;"><?= $data['bid_time']; ?></td>
+										<th>Sr No.</th>
+										<th>Owner ID</th>
+										<th>Team ID</th>
+										<th>Amount</th>
+										<!-- <th>Is Winner</th> -->
+										<th>Bid Time</th>
 									</tr>
-								<?php } ?>
-							</tbody>
-						</table>
+								</thead>
+								<tbody id="bid_data">
+									<?php
+									$i = 1;
+									foreach ($bid_data as $data) {
+										$owner_name = $this->db->select('name')->where('admin_id', $data['owner_id'])->get('admin')->row_array();
+										$teams_name = $this->db->select('teams_name')->where('teams_id', $data['team_id'])->get('teams')->row_array();
+									?>
+										<tr>
+											<td style="color:white;"><?= $i++; ?></td>
+											<td style="color:white;"><?= $owner_name['name']; ?></td>
+											<td style="color:white;"><?= $teams_name['teams_name']; ?></td>
+											<td style="color:white;"><?= $data['amount']; ?></td>
+											<!-- <td><?= $data['is_winner']; ?></td> -->
+											<td style="color:white;"><?= $data['bid_time']; ?></td>
+										</tr>
+									<?php } ?>
+								</tbody>
+							</table>
+						</div>
 
 				</div>
 
